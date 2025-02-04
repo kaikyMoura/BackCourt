@@ -1,0 +1,40 @@
+.input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    background-color: #161616;
+    border-radius: 18px;
+    box-sizing: border-box;
+    color: #fff;
+
+    &[type='file'] {
+        border: none;
+        background-color: transparent;
+        width: 8.90em;
+    }
+
+    &::file-selector-button {
+        color: #fff;
+        background-color: black;
+        width: 8em;
+        height: 2em;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+}
+
+
+.inputButton {
+    label {
+        text-align: start;
+        color: #fff;
+    }
+
+    button {
+        border: none;
+        background-color: transparent;
+        position: relative;
+        top: 0.4em;
+        margin-left: -2.2em;
+    }
+}
