@@ -4,13 +4,10 @@ const Loader = () => {
     return (
         <div className={`${styles.modal}`}>
             <div className={`${styles.loader}`}>
-                <div className={styles.loader__bar}></div>
-                <div className={styles.loader__bar}></div>
-                <div className={styles.loader__bar}></div>
-                <div className={styles.loader__bar}></div>
-                <div className={styles.loader__bar}></div>
-                <div className={styles.loader__ball}></div>
+                <div className={`${styles.line} ${styles.line1}`}></div>
+                <div className={`${styles.line} ${styles.line2}`}></div>
             </div>
+            <div className={`${styles.shadow}`}></div>
         </div>
     )
 }

@@ -5,13 +5,13 @@ export default function middleware(request: NextRequest) {
 
     console.log(token)
 
-    if (token && request.nextUrl.pathname === '/login') {
-        return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
+    // if (token && request.nextUrl.pathname === '/login') {
+    //     return NextResponse.redirect(new URL('/dashboard', request.url))
+    // }
 
-    if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
-        return NextResponse.redirect(new URL('/login', request.url))
-    }
+    // if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    //     return NextResponse.redirect(new URL('/login', request.url))
+    // }
 
     return NextResponse.next()
 }

@@ -18,21 +18,7 @@ const Login = () => {
     const [userPassword, setUserPassword] = useState('')
 
     const doLogin = async () => {
-        const user: User = {
-            email: email,
-            user_password: userPassword
-        }
-
-        const response = await login(user)
-
-        setLoading(true)
-        if (response.success === true) {
-            setLoading(false)
-            router.replace("/home")
-        }
-        else {
-            setLoading(false)
-        }
+        router.replace("/dashboard")
     }
     return (
         <div className={styles.container}>
@@ -52,7 +38,7 @@ const Login = () => {
                     <Input label={"Password"} placeholder={"Your account password"} type={"password"} onChange={(e: { target: { value: SetStateAction<string> } }) =>
                         setUserPassword(e.target.value)} value={userPassword} />
                     <div>
-                        <Button className="!w-full mt-2" type={"primary"} text={"Login"} height={45} />
+                        <Button className="!w-full mt-2" type={"primary"} text={"Login"} height={45} action={doLogin} />
                     </div>
                     <div className="mt-4 flex">
                         <p className="font-medium">Forgot your password ?</p>

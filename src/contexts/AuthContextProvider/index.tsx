@@ -66,18 +66,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setLoading(false);
         };
 
-        handleAuthentication();
+        //handleAuthentication();
     }, [token, router.pathname]);
 
     return (
         <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
-            {isAuthenticated ? (
-                <DashBoard>
-                    {children}
-                </DashBoard>
-            ) : (
+            {/* {isAuthenticated ? ( */}
+            <DashBoard>
+                {children}
+            </DashBoard>
+            {/* ) : (
                 <main>{children}</main>
-            )}
+            )} */}
         </AppContext.Provider>
     );
 }
