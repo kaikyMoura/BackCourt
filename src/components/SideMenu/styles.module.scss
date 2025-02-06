@@ -1,20 +1,41 @@
 .sideContainer {
-    overflow: hidden;
     position: relative;
     max-width: 500px;
-    ;
 }
 
 .sidemenu {
     position: fixed;
-    background-color: #ffffff;
+    background-color: var(--component-color);
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.4);
-    min-width: 80px;
-    left: 1%;
-    border-radius: 36px;
+    width: 70px;
+    border-radius: 20px;
     min-height: 100% !important;
     overflow-y: auto;
-    padding-top: 60px;
+    justify-content: center;
+    transition: width 1s ease-in-out;
+    overflow-x: hidden;
+
+    h2 {
+        z-index: 1000;
+        top: 10%;
+    }
+
+    &.expanded {
+        justify-content: start;
+        width: 240px;
+    }
+
+    ul {
+        transition: max-width 1s ease-in-out, opacity 1s ease-in-out;
+    }
+
+    li:hover {
+        border-radius: 36px;
+        padding: 10px;
+        background-color: #161616;
+        color: white;
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -29,18 +50,9 @@
     }
 }
 
-.sidemenu li:hover {
-    border-radius: 36px;
-    padding: 10px;
-    background-color: #cc0202;
-    color: white;
-    width: 100%;
-}
-
 .selected {
     border-radius: 36px;
-    padding: 10px;
-    background-color: #cc0202;
+    padding: 4px;
+    background-color: #161616;
     color: white;
-    width: 100%;
 }

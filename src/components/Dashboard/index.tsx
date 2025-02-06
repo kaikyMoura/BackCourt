@@ -1,20 +1,22 @@
-import { FaCalendarAlt, FaHome, FaThList } from "react-icons/fa"
-import { FaGear } from "react-icons/fa6"
-import { IoPersonCircle } from "react-icons/io5"
+import { FaBasketball, FaGear } from "react-icons/fa6"
+import { GiBasketballJersey, GiHamburgerMenu } from "react-icons/gi"
+import { IoPerson } from "react-icons/io5"
 import SideMenu from "../SideMenu"
+import { FaHome } from "react-icons/fa"
+import { TbDeviceAnalytics } from "react-icons/tb"
 
 const DashBoard = (props: {
     children: React.ReactNode
 }) => {
 
-     return (
+    return (
         <div>
-            <SideMenu items={[{ name: "Dashboard", link: "/home", icon: <FaHome fontSize={28} />, tooltip: "Home" },
-            { name: "My Tasks", link: "/tasks", icon: <FaThList fontSize={28} />, tooltip: "My tasks" },
-            { name: "Calendar", link: "/calendar", icon: <FaCalendarAlt fontSize={28} />, tooltip: "Calendar" },
-            { name: "Categories", link: "/profile", icon: <IoPersonCircle fontSize={28} />, tooltip: "Profile" },
-            { name: "Categories", link: "/settings", icon: <FaGear fontSize={28} />, tooltip: "Settings" }
-            ]} />
+            <SideMenu items={[{ name: "Home", link: "/dashboard", icon: <FaHome fontSize={28} />, tooltip: "Home" },
+            { name: "Teams", link: "/teams", icon: <GiBasketballJersey fontSize={28} />, tooltip: "Teams" },
+            { name: "Players", link: "/players", icon: <IoPerson fontSize={28} />, tooltip: "Players" },
+            { name: "Games", link: "/games", icon: <FaBasketball fontSize={28} />, tooltip: "Games" },
+            { name: "Analytics", link: "/analitycs", icon: <TbDeviceAnalytics  fontSize={28} />, tooltip: "Analytics" }
+            ]} title={"BAS"} />
             <main>
                 {props.children}
             </main>

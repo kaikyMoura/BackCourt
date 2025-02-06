@@ -2,23 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
-  --background: #161616;
-  --foreground: #171717;
+  --background: #ededed;
+  --text-color: #161616;
+  --component-color: #ededed;
 }
 
-@media (prefers-color-scheme: "#161616") {
-  :root {
-    --background: #161616;
-    --foreground: #ededed;
-  }
+[data-theme="dark"] {
+  --background: #161616;
+  --text-color: #ededed;
+  --component-color: #2e2e2e;
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text-color);
   background: var(--background);
   font-family: 'Poppins', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
 }
+
 
 p {
   font-family: 'Poppins', sans-serif;
