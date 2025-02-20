@@ -3,7 +3,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 import styles from './styles.module.scss';
 
 const Card = (props: {
-    children: React.ReactNode[],
+    children: React.ReactNode | React.ReactNode[],
     className?: string,
     pages: number;
     title?: string;
@@ -34,11 +34,11 @@ const Card = (props: {
                     <h2 className="font-medium text-xl">{props.title}</h2>
                     {props.pages > 1 ?
                         <>
-                            {props.children[currentPage]}
+                            {Array.isArray(props.children) ? props.children[currentPage] : props.children}
                         </>
                         :
                         <>
-                            {props.children}
+                            {Array.isArray(props.children) ? props.children : [props.children]}
                         </>
                     }
                 </div>

@@ -49,22 +49,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, [router, router.events, setLoading]);
 
     useEffect(() => {
-        const handleAuthentication = async () => {
-            setLoading(true);
+        // const handleAuthentication = async () => {
+        //     setLoading(true);
 
-            if (!token) {
-                if (!publicPages.includes(router.pathname)) {
-                    setIsAuthenticated(false);
-                    router.replace("/login");
-                } else {
-                    setIsAuthenticated(false);
-                }
-            } else {
-                setIsAuthenticated(true);
-            }
+        //     if (!token) {
+        //         if (!publicPages.includes(router.pathname)) {
+        //             setIsAuthenticated(false);
+        //             router.replace("/login");
+        //         } else {
+        //             setIsAuthenticated(false);
+        //         }
+        //     } else {
+        //         setIsAuthenticated(true);
+        //     }
 
-            setLoading(false);
-        };
+        //     setLoading(false);
+        // };
 
         //handleAuthentication();
     }, [token, router.pathname]);

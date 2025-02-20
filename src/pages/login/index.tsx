@@ -7,7 +7,7 @@ import { User } from "@/model/User"
 import { useRouter } from "next/router"
 import { SetStateAction, useState } from "react"
 import { FaBasketball, FaTrophy } from "react-icons/fa6"
-import styles from "./styles.module.scss"
+import styles from "./styles.module.css"
 
 const Login = () => {
     const router = useRouter()
@@ -22,7 +22,7 @@ const Login = () => {
     }
     return (
         <div className={styles.container}>
-            <Card className="mt-10" pages={1}>
+            <Card className="mt-4" pages={1}>
                 <div className={styles.card}>
                     <div className={`flex justify-center gap-2 mb-2 ${styles.icon}`}>
                         <FaBasketball fontSize={32} color="#fff" />

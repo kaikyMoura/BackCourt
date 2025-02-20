@@ -3,20 +3,20 @@ import { LoadingProvider } from "@/contexts/LoadingContextProvider";
 import { ThemeProvider } from "@/contexts/ThemeContextProvider";
 import { AppProps } from "next/app";
 import { Tooltip } from "react-tooltip";
-import '../styles/globals.scss';
+import '../styles/globals.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
 
     return (
         <>
-            <ThemeProvider>
-                <LoadingProvider>
+            <LoadingProvider>
+                <ThemeProvider>
                     <AuthProvider>
                         <Component {...pageProps} />
                     </AuthProvider>
                     <Tooltip id="my-tooltip" place="right-start" />
-                </LoadingProvider>
-            </ThemeProvider>
+                </ThemeProvider>
+            </LoadingProvider>
         </>
     )
 }
