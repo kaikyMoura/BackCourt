@@ -34,12 +34,6 @@
   }
 }
 
-@media (max-width: 768px) {
-  .sidemenu {
-    width: 80px;
-  }
-}
-
 @media (min-width: 768px) {
   .sidemenu {
     min-width: var(--sidebar-width);

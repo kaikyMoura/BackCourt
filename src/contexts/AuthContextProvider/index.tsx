@@ -22,31 +22,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const router = useRouter();
     const token = Cookies.get('Token');
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (setLoading) {
-                const handleRouteChange = () => {
-                    setLoading(true);
-                };
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         if (setLoading) {
+    //             const handleRouteChange = () => {
+    //                 setLoading(true);
+    //             };
 
-                const handleRouteComplete = () => {
-                    setLoading(false);
-                };
+    //             const handleRouteComplete = () => {
+    //                 setLoading(false);
+    //             };
 
-                router.events.on('routeChangeStart', handleRouteChange);
-                router.events.on('routeChangeComplete', handleRouteComplete);
-                router.events.on('routeChangeError', handleRouteComplete);
+    //             router.events.on('routeChangeStart', handleRouteChange);
+    //             router.events.on('routeChangeComplete', handleRouteComplete);
+    //             router.events.on('routeChangeError', handleRouteComplete);
 
-                return () => {
-                    router.events.off('routeChangeStart', handleRouteChange);
-                    router.events.off('routeChangeComplete', handleRouteComplete);
-                    router.events.off('routeChangeError', handleRouteComplete);
-                };
-            }
-        }, 0);
+    //             return () => {
+    //                 router.events.off('routeChangeStart', handleRouteChange);
+    //                 router.events.off('routeChangeComplete', handleRouteComplete);
+    //                 router.events.off('routeChangeError', handleRouteComplete);
+    //             };
+    //         }
+    //     }, 0);
 
-        return () => clearTimeout(timer);
-    }, [router, router.events, setLoading]);
+    //     return () => clearTimeout(timer);
+    // }, [router, router.events, setLoading]);
 
     useEffect(() => {
         // const handleAuthentication = async () => {

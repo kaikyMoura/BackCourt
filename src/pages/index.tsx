@@ -12,7 +12,7 @@ const Home = () => {
     useEffect(() => { }, [theme, toggleTheme])
 
     return (<>
-        <div className={`flex gap-6 ${styles.container}`}>
+        {/* <div className={`flex gap-6 ${styles.container}`}>
             <Card className={styles.card} pages={1}>
                 <div></div>
                 <div></div>
@@ -20,7 +20,7 @@ const Home = () => {
             <button onClick={() => Cookies.remove('Token')}>Sair</button>
             <button onClick={() => setLoading(true)}>carregar</button>
             <button onClick={toggleTheme}>{theme === 'dark' ? "🌙 Modo Escuro" : "☀️ Modo Claro"} </button>
-        </div>
+        </div> */}
     </>)
 }
 

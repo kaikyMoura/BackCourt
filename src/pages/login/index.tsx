@@ -1,12 +1,10 @@
-import { login } from "@/api/services/userService"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
 import Input from "@/components/Input"
 import { useLoadingContext } from "@/contexts/LoadingContextProvider"
-import { User } from "@/model/User"
 import { useRouter } from "next/router"
 import { SetStateAction, useState } from "react"
-import { FaBasketball, FaTrophy } from "react-icons/fa6"
+import { FaBasketball } from "react-icons/fa6"
 import styles from "./styles.module.css"
 
 const Login = () => {
