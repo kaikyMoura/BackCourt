@@ -16,12 +16,12 @@ const News = () => {
 
     useEffect(() => {
         const fetchArticles = async () => {
-            const response = await getArticles("bleacher_report", undefined, 10)
+            const response = await getArticles("nba", undefined, undefined, 0, 8)
 
-            const headlines = await getArticles("espn-headlines", undefined, 5)
+            // const headlines = await getArticles("espn-headlines", undefined, 5)
             console.log(response)
             setArticles(response.data)
-            setheadlines(headlines.data)
+            // setheadlines(headlines.data)
         }
         fetchArticles()
         console.log(articles)

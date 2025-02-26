@@ -34,3 +34,31 @@ export const get_players = async (is_active?: boolean | true, player_name?: stri
         error: "Internal server error"
     }
 }
+
+export const get_player_info = async (player_id?: boolean | true, player_name?: string): Promise<ApiResponse<Player[]>> => {
+    const params = new URLSearchParams();
+
+    try {
+        if (player_id) params.append("is_active", player_id.toString());
+        if (player_name) params.append("player_name", player_name);
+
+        const response = await api.get(`/players/player/info?${params.toString()}`);
+        return {
+            success: true,
+            data: response.data
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            const axiosError = err as AxiosError<ErrorResponse>;
+            if (axiosError.response) {
+                return {
+                    success: false,
+                    error: axiosError.response.data.details
+                };
+            }
+        }
+    }
+    return {
+        error: "Internal server error"
+    }
+}

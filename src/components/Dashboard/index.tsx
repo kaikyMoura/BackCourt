@@ -1,17 +1,14 @@
-import { get_players } from "@/api/services/playersService"
-import { useEffect, useState } from "react"
+import { Player } from "@/model/Player"
+import { useState } from "react"
 import { FaHome } from "react-icons/fa"
 import { FaBasketball } from "react-icons/fa6"
 import { GiBasketballJersey } from "react-icons/gi"
 import { IoNewspaper, IoPerson } from "react-icons/io5"
 import { TbDeviceAnalytics } from "react-icons/tb"
 import Footer from "../Footer"
+import SearchBar from "../SearchBar"
 import SideMenu from "../SideMenu"
 import styles from "./styles.module.scss"
-import { get_teams } from "@/api/services/teamsService"
-import { Player } from "@/model/Player"
-import { Team } from "@/model/Team"
-import SearchBar from "../SearchBar"
 
 const DashBoard = (props: {
     children: React.ReactNode

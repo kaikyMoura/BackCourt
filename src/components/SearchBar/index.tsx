@@ -3,7 +3,8 @@ import { FaSearch } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import { get_players } from '@/api/services/playersService';
 import { get_teams } from '@/api/services/teamsService';
-import { FaX } from 'react-icons/fa6';
+import { FaToggleOff, FaToggleOn, FaX } from 'react-icons/fa6';
+import Image from 'next/image';
 
 const SearchBar = <T extends Record<string, any>>(
     props: {
@@ -15,24 +16,38 @@ const SearchBar = <T extends Record<string, any>>(
     const [allData, setAllData] = useState<T[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isActivePlayer, setIsActivePlayer] = useState(true)
+
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
             const [playersData, teamsData] = await Promise.all([
-                get_players(undefined, undefined, undefined, undefined, 10),
+                get_players(isActivePlayer, undefined, undefined, undefined, 10),
                 get_teams(undefined, undefined, undefined, 10),
             ]);
-            const combinedData = [
-                ...(playersData.data || []),
-                ...(teamsData.data || [])
-            ] as unknown as T[];
-            setAllData(combinedData);
+
+            const players = playersData.data || [];
+            const teams = teamsData.data || [];
+
+            const playersWithImages = players.map(player => ({
+                ...player,
+                image: `https://cdn.nba.com/headshots/nba/latest/1040x760/${player.id}.png`
+            }));
+
+            const teamsWithImages = teams.map(team => ({
+                ...team,
+                image: "/" + team.full_name.toLowerCase().replace(/\s+/g, "_") + "_primary.png"
+            }));
+
+            const combinedData = [...(playersWithImages || []),...(teamsWithImages || [])] as unknown as T[];
+
+            setAllData(combinedData)
         } catch (error) {
             console.error('Error: ', error);
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [isActivePlayer]);
 
     useEffect(() => {
         fetchData();
@@ -82,9 +97,25 @@ const SearchBar = <T extends Record<string, any>>(
                 </div>
                 {query && !isLoading && filteredData.length > 0 && (
                     <ul className={`absolute w-full bg-white shadow-md ${styles.searchResults}`}>
+                        <li className="mt-2">
+                            <button className="flex" onClick={() => setIsActivePlayer(!isActivePlayer)}>
+                                <p className='font-medium text-lg'>Is active ?</p>
+                                {isActivePlayer ?
+                                    (
+                                        <FaToggleOn fontSize={26} color="#2699ef" />
+                                    )
+                                    :
+                                    (
+                                        <FaToggleOff fontSize={26} color="#2699ef" />
+                                    )
+                                }
+                            </button>
+                        </li>
                         {filteredData.map((item, index) => (
-                            <li key={index} className="p-2 border-b border-gray-200">
-                                <p>{item.full_name}</p>
+                            <li key={index} className="flex items-center gap-4 p-2 border-b border-gray-200">
+                                <Image src={item.image} alt={'player-headshot'} loading="lazy" width={110} height={40}
+                                    style={{ width: 'auto', height: 'auto' }} />
+                                <p className="font-medium text-lg">{item.full_name}</p>
                             </li>
                         ))}
                     </ul>
