@@ -65,7 +65,7 @@ const SearchBar = <T extends Record<string, any>>(
                 <div className="flex items-center relative">
                     <input
                         className={`focus:outline-none w-full ${styles.searchInput}`}
-                        placeholder="Buscar..."
+                        placeholder="search..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
@@ -76,7 +76,7 @@ const SearchBar = <T extends Record<string, any>>(
                         </button>
                     )}
 
-                    <button className={`absolute right-2 flex items-center justify-center ${styles.searchButton}`}>
+                    <button className={`absolute flex items-center justify-center ${styles.searchButton}`}>
                         <FaSearch fontSize={20} color="#fff" />
                     </button>
                 </div>
