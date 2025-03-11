@@ -5,12 +5,16 @@ import { get_players } from '@/api/services/playersService';
 import { get_teams } from '@/api/services/teamsService';
 import { FaToggleOff, FaToggleOn, FaX } from 'react-icons/fa6';
 import Image from 'next/image';
+import useLazyLoading from '../../hooks/useLazyLoading';
 
 const SearchBar = <T extends Record<string, any>>(
     props: {
         onSearch: (results: T[]) => void;
         keys: (keyof T)[];
     }) => {
+
+    const { imgRef, isVisible } = useLazyLoading();
+
     const [query, setQuery] = useState('');
     const [filteredData, setFilteredData] = useState<T[]>([]);
     const [allData, setAllData] = useState<T[]>([]);
@@ -98,7 +102,7 @@ const SearchBar = <T extends Record<string, any>>(
                 {query && !isLoading && filteredData.length > 0 && (
                     <ul className={`absolute w-full bg-white shadow-md ${styles.searchResults}`}>
                         <li className="mt-2">
-                            <button className="flex" onClick={() => setIsActivePlayer(!isActivePlayer)}>
+                            <button className="ml-2 flex" onClick={() => setIsActivePlayer(!isActivePlayer)}>
                                 <p className='font-medium text-lg'>Is active ?</p>
                                 {isActivePlayer ?
                                     (
@@ -112,8 +116,8 @@ const SearchBar = <T extends Record<string, any>>(
                             </button>
                         </li>
                         {filteredData.map((item, index) => (
-                            <li key={index} className="flex items-center gap-4 p-2 border-b border-gray-200">
-                                <Image src={item.image} alt={'player-headshot'} loading="lazy" width={110} height={40}
+                            <li key={index} className="flex items-center gap-4 p-2 border-b border-gray-200 cursor-pointer">
+                                <Image ref={imgRef} src={item.image!} alt={'player-headshot'} loading="lazy" width={110} height={40}
                                     style={{ width: 'auto', height: 'auto' }} />
                                 <p className="font-medium text-lg">{item.full_name}</p>
                             </li>
