@@ -77,7 +77,7 @@ const Signup = () => {
                             <p>I accept the TaskQuest Terms and Privacy Policy</p>
                         </div>
                         <div >
-                            <Button className="!w-full" type={"primary"} text={"Join now"} height={45} />
+                            <Button className="!w-full font-semibold text-lg" style={"primary"} text={"Join now"} height={45} type="submit"/>
                         </div>
                         <div className="mt-4 flex">
                             <p className="font-medium">Already have a account ?</p>

@@ -1,40 +1,27 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss"
 
-interface ButtonProps {
-    type: 'primary' | 'secondary';
-    width?: number
-    height?: number
+const Button = ({ style, type, width, height, text, className, action, disabled }: {
+    style: 'primary' | 'secondary' | { type: 'custom', color: string };
+    type?: 'button' | 'submit' | 'reset';
+    width?: number;
+    height?: number;
     text: string;
     className?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    action?: any
-}
-
-const Button = ({ text, width, height, action, type, className }: ButtonProps) => {
-    const [color, setColor] = useState('')
-
-    const handleClick = (event: { preventDefault: () => void; }) => {
+    action?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    disabled?: boolean
+}) => {
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
         if (action) {
             action(event)
         }
     }
 
-    useEffect(() => {
-        switch (type) {
-            case 'primary':
-                setColor('#2699ef')
-                break;
-            case 'secondary':
-                setColor('white')
-        }
-    }, [type])
-
     return (
         <>
-            <button className={`${className} ${styles.styledButton}`} style={{ width: width, height: height, backgroundColor: color }} onClick={handleClick}>
-                <p className="font-bold" style={{ color: type == 'primary' ? 'white' : 'black' }}>{text}</p>
+            <button className={`${className} ${styles.styledButton} ${style == "primary" ? styles.primary : styles.secondary}`} type={type} style={{ width: width, height: height }} onClick={handleClick} disabled={disabled}>
+                <p>{text}</p>
             </button>
         </>
     )

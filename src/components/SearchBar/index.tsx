@@ -9,7 +9,6 @@ import useLazyLoading from '../../hooks/useLazyLoading';
 
 const SearchBar = <T extends Record<string, any>>(
     props: {
-        onSearch: (results: T[]) => void;
         keys: (keyof T)[];
     }) => {
 
@@ -43,7 +42,7 @@ const SearchBar = <T extends Record<string, any>>(
                 image: "/" + team.full_name.toLowerCase().replace(/\s+/g, "_") + "_primary.png"
             }));
 
-            const combinedData = [...(playersWithImages || []),...(teamsWithImages || [])] as unknown as T[];
+            const combinedData = [...(playersWithImages || []), ...(teamsWithImages || [])] as unknown as T[];
 
             setAllData(combinedData)
         } catch (error) {
@@ -70,7 +69,6 @@ const SearchBar = <T extends Record<string, any>>(
         );
 
         setFilteredData(filtered);
-        props.onSearch(filtered);
     }, [query, allData]);
 
     const clearInput = () => {
@@ -117,7 +115,8 @@ const SearchBar = <T extends Record<string, any>>(
                         </li>
                         {filteredData.map((item, index) => (
                             <li key={index} className="flex items-center gap-4 p-2 border-b border-gray-200 cursor-pointer">
-                                <Image ref={imgRef} src={item.image!} alt={'player-headshot'} loading="lazy" width={110} height={40}
+                                <Image
+                                    onLoad={() => setIsLoading(false)} ref={imgRef} src={item.image!} alt={'player-headshot'} loading="lazy" width={110} height={40}
                                     style={{ width: 'auto', height: 'auto' }} />
                                 <p className="font-medium text-lg">{item.full_name}</p>
                             </li>
