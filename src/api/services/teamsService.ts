@@ -1,8 +1,8 @@
-import { ApiResponse } from "@/model/ApiResponse";
-import { ErrorResponse } from "@/model/ErrorReponse";
+import { ApiResponse } from "@/types/ApiResponse";
+import { ErrorResponse } from "@/types/ErrorReponse";
 import axios, { AxiosError } from "axios";
 import api from "..";
-import { Team } from "@/model/Team";
+import { Team } from "@/types/Team";
 
 export const get_teams = async (team_name?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Team[]>> => {
     const params = new URLSearchParams();

@@ -1,5 +1,6 @@
 {
-  "name": "basketball_advanced_stats",
+  "name": "backcourt",
+  "description": "Basketball Advanced Stats & Analysis",
   "version": "0.0.1",
   "private": true,
   "scripts": {

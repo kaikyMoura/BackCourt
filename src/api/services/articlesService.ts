@@ -1,8 +1,8 @@
-import { ApiResponse } from "@/model/ApiResponse";
-import { Article } from "@/model/Article";
+import { ApiResponse } from "@/types/ApiResponse";
+import { Article } from "@/types/Article";
 import axios, { AxiosError } from "axios";
 import api from '..';
-import { ErrorResponse } from '../../model/ErrorReponse';
+import { ErrorResponse } from '../../types/ErrorReponse';
 
 export const getArticles = async (source?: string, player?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Article[]>> => {
     const params = new URLSearchParams();

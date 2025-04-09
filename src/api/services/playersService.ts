@@ -1,10 +1,10 @@
-import { ApiResponse } from "@/model/ApiResponse";
-import { ErrorResponse } from "@/model/ErrorReponse";
+import { ApiResponse } from "@/types/ApiResponse";
+import { ErrorResponse } from "@/types/ErrorReponse";
 import axios, { AxiosError } from "axios";
 import api from "..";
-import { Player } from "@/model/Player";
+import { Player } from "@/types/Player";
 
-export const get_players = async (is_active?: boolean | true, player_name?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Player[]>> => {
+const get_players = async (is_active?: boolean | true, player_name?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Player[]>> => {
     const params = new URLSearchParams();
 
     try {
@@ -35,14 +35,14 @@ export const get_players = async (is_active?: boolean | true, player_name?: stri
     }
 }
 
-export const get_player_info = async (player_id?: boolean | true, player_name?: string): Promise<ApiResponse<Player[]>> => {
+const get_player_info = async (player_id?: number, player_name?: string): Promise<ApiResponse<Player[]>> => {
     const params = new URLSearchParams();
 
     try {
-        if (player_id) params.append("is_active", player_id.toString());
+        if (player_id) params.append("layer_id", player_id.toString());
         if (player_name) params.append("player_name", player_name);
 
-        const response = await api.get(`/players/player/info?${params.toString()}`);
+        const response = await api.get("/players/player/info", { params: params });
         return {
             success: true,
             data: response.data
@@ -61,4 +61,9 @@ export const get_player_info = async (player_id?: boolean | true, player_name?: 
     return {
         error: "Internal server error"
     }
+}
+
+export {
+    get_players,
+    get_player_info
 }

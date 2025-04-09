@@ -1,0 +1,25 @@
+.styledButton {
+    border-radius: 18px;
+    box-sizing: border-box;
+    min-width: 6em;
+    min-height: 2em;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.2s ease;
+    color: #fff;
+
+    &.primary {
+        background-color: hsl(206, 86%, 54%);
+
+        &:hover {
+            background-color: var(--component-color);
+        }
+    }
+
+    &.secondary {
+        background-color: #111827;
+
+        &:hover {
+            background-color: black;
+        }
+    }
+}

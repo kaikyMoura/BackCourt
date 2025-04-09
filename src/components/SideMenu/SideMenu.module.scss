@@ -1,0 +1,37 @@
+.sidemenu {
+  position: fixed;
+  background-color: var(--component-color);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
+  width: var(--sidebar-width);
+  border-radius: 20px;
+  min-height: 100% !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 100;
+  transition: width 1s ease-in-out;
+
+  &.expanded {
+    --sidebar-width: 240px;
+    justify-content: start;
+  }
+
+  li {
+    margin-left: 6px;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: #161616;
+      color: #fff;
+    }
+  }
+
+  .selected {
+    background-color: #161616;
+    color: white;
+  }
+
+  h2 {
+    z-index: 1000;
+    top: 10%;
+  }
+}

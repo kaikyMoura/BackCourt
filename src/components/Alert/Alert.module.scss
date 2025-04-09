@@ -1,0 +1,38 @@
+.alert_container {
+    position: fixed;
+    height: 10em;
+    width: 28em;
+    border-radius: 6px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    padding: 1em;
+}
+
+.alert_modal {
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0px 1px 2px 0px #808080;
+}
+
+.modalBlur h2 {
+    position: absolute;
+    top: 0.5em;
+}
+
+.modalBlur p {
+    position: relative;
+    color: black;
+}
+
+.modalBlur button {
+    position: absolute;
+    top: 0.5em;
+    margin-left: 90%;
+}
