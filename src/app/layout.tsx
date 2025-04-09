@@ -1,8 +1,11 @@
-import { useAuth } from "@/contexts/AuthContext/useAuth";
+import ClientProviders from "@/components/ClientProviders";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import '../styles/globals.css';
+
+import type { Viewport } from 'next'
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://example.com'),
     title: 'Backcourt | NBA Stats & News',
     description: 'Your ultimate source for in-depth NBA coverage.',
     keywords: ['NBA', 'Basketball', 'Stats', 'Players', 'Teams'],
@@ -11,7 +14,6 @@ export const metadata: Metadata = {
         icon: '/favicon.ico',
         apple: '/apple-icon.png',
     },
-    themeColor: '#2699ef',
     openGraph: {
         title: 'Backcourt - NBA Stats & News',
         description: 'Explore comprehensive stats, teams, and players.',
@@ -28,14 +30,18 @@ export const metadata: Metadata = {
     },
 }
 
+export const viewport: Viewport = {
+    themeColor: '#161616',
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const { isAuthenticated } = useAuth()
-
-    if (isAuthenticated) redirect('/')
-
     return (
         <html lang="en">
-            <body>{children}</body>
+            <body>
+                <ClientProviders>
+                    {children}
+                </ClientProviders>
+            </body>
         </html>
     );
 }

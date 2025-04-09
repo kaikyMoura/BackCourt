@@ -9,6 +9,8 @@
 
     &.primary {
         background-color: hsl(206, 86%, 54%);
+        color: #fff;
+
 
         &:hover {
             background-color: var(--component-color);
@@ -17,6 +19,7 @@
 
     &.secondary {
         background-color: #111827;
+        color: #fff;
 
         &:hover {
             background-color: black;

@@ -1,18 +1,19 @@
+"use client"
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React, { ReactNode, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { FaBasketball } from 'react-icons/fa6'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import styles from './SideMenu.module.scss'
 
-const SideMenu = ({title, items} : {
+const SideMenu = ({ title, items }: {
     title: string,
     items: {
         name: string, link: string, icon: ReactNode, tooltip?: string,
         subMenuItems?: { name: string, link: string, icon: ReactNode, tooltip?: string }[]
     }[],
 }) => {
-    const router = useRouter()
+    const pathName = usePathname()
 
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -25,26 +26,34 @@ const SideMenu = ({title, items} : {
         setIsExpanded((prev) => !prev);
     };
 
+    useEffect(() => { }, [isExpanded, pathName])
+
     return (
         <>
-            <aside className={`${styles.sidemenu} flex items-center ${isExpanded === true ? styles.expanded : null} transition-all duration-500 ease-in-out`}>
-                <FaBasketball fontSize={32} color="#fff" />
-                {isExpanded &&
-                    <h2 className={`absolute font-semibold text-xl ${isExpanded === true ? "ml-6" : "ml-4"} transition-all duration-800 ease-in-out`}>
-                        {title}
-                    </h2>
-                }
-                <ul className={`flex flex-col items-center gap-8 mt-6 ${isExpanded === true ? "ml-6" : null}`}>
+            <aside className={`${styles.sidemenu} flex items-center ${isExpanded ? styles.expanded : null} transition-all duration-500 ease-in-out`}>
+                <ul className={`flex flex-col items-center gap-6 mt-6 ${isExpanded ? "ml-6" : "ml-2"}`}>
+                    <div className='flex w-full ml-6 gap-2'>
+                        <FaBasketball fontSize={28} color="#fff" />
+                        {isExpanded &&
+                            <h2 className={`font-semibold text-xl transition-all duration-800 ease-in-out`}>
+                                {title}
+                            </h2>
+                        }
+                    </div>
+
                     {items && items.map((item, index) => (
                         <React.Fragment key={index}>
-                            <li className={`cursor-pointer w-full rounded-lg ${router.pathname === item.link ? styles.selected : ""}`}>
+                            <li className={`w-full rounded-lg ${pathName === item.link && isExpanded ? styles.selected : null}`}>
                                 <Link
-                                    className="flex items-center w-full px-2 py-2 hover:rounded-lg"
+                                    className="flex items-center px-2 py-2 "
                                     href={item.link}
                                     data-tooltip-id="my-tooltip"
-                                    data-tooltip-content={item.tooltip}
-                                >
-                                    {item.icon}
+                                    data-tooltip-content={item.tooltip} >
+                                    <div
+                                        className={`p-2 rounded-lg ${pathName === item.link ? styles.selected : null} transition-colors`}
+                                    >
+                                        {item.icon}
+                                    </div>
                                     <p className={`ml-4 transition-opacity duration-1000 ease-in-out ${!isExpanded ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
                                         {isExpanded && item.name}
                                     </p>

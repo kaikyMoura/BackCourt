@@ -1,13 +1,14 @@
-import { useThemeContext } from "@/contexts/ThemeContext/ThemeContext";
+"use client"
 import { useEffect } from "react";
 import { AiFillMoon } from "react-icons/ai";
 import { MdWbSunny } from "react-icons/md";
 import SearchBar from "../SearchBar";
 import styles from "./ToolBar.module.scss";
+import { useTheme } from "@/contexts/ThemeContext/useTheme";
 
 const ToolBar = () => {
 
-    const { theme, toggleTheme } = useThemeContext()
+    const { theme, toggleTheme } = useTheme()
 
     useEffect(() => { }, [theme, toggleTheme])
 

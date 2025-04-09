@@ -1,18 +1,19 @@
+"use client"
 import { getArticles } from "@/api/services/articlesService"
 import Button from "@/components/Button"
 import Card from "@/components/Card/Card"
-import { useLoadingContext } from "@/contexts/LoadingContext/LoadingContext"
 import { Article } from "@/types/Article"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { TbReload } from "react-icons/tb"
 import styles from "./page.module.scss"
+import { useLoading } from "@/contexts/LoadingContext/useLoading"
 
 const News = () => {
     const [loadingState, setLoadingState] = useState(false)
 
-    const { isLoading, setLoading } = useLoadingContext()
+    const { isLoading, setLoading } = useLoading()
 
     const [articles, setArticles] = useState<Article[] | undefined>([])
     const [headlines, setheadlines] = useState<Article[] | undefined>([])

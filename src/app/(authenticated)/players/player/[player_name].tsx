@@ -1,3 +1,4 @@
+"use client"
 import PlayerInfoCard from "@/components/PlayerInfoCard"
 
 const PlayerDetails = () => {

@@ -1,3 +1,4 @@
+"use client"
 import Loader from "@/components/Loader";
 import React, { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
 

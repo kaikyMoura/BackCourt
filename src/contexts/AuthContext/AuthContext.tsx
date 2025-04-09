@@ -1,7 +1,7 @@
 'use client';
 import Cookies from 'js-cookie';
-import { useRouter } from "next/router";
-import React, { createContext, ReactNode, useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { useLoading } from '../LoadingContext/useLoading';
 
 
@@ -19,64 +19,52 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const { setLoading } = useLoading()
     const router = useRouter();
+    const pathname = usePathname()
+
     const token = Cookies.get('Token');
 
     useEffect(() => {
+        if (!setLoading) return
+
+        setLoading(true)
+
         const timer = setTimeout(() => {
-            if (setLoading) {
-                const handleRouteChange = () => {
-                    setLoading(true);
-                };
+            setLoading(false)
+        }, 300)
 
-                const handleRouteComplete = () => {
-                    setLoading(false);
-                };
+        return () => clearTimeout(timer)
+    }, [pathname, setLoading, setLoading])
 
-                router.events.on('routeChangeStart', handleRouteChange);
-                router.events.on('routeChangeComplete', handleRouteComplete);
-                router.events.on('routeChangeError', handleRouteComplete);
+    // const handleAuthentication = useCallback(async () => {
+    //     const token = Cookies.get('Token');
 
-                return () => {
-                    router.events.off('routeChangeStart', handleRouteChange);
-                    router.events.off('routeChangeComplete', handleRouteComplete);
-                    router.events.off('routeChangeError', handleRouteComplete);
-                };
-            }
-        }, 0);
-
-        return () => clearTimeout(timer);
-    }, [router, router.events, setLoading]);
-
-    const handleAuthentication = useCallback(async () => {
-        const token = Cookies.get('Token');
-
-        setLoading(true);
-        if (!token) {
-            Cookies.remove('Token');
-            Cookies.remove('UserEmail');
-            if (!publicPages.includes(router.pathname)) {
-                setIsAuthenticated(false);
-                if (router.pathname !== '/login') {
-                    router.push('/login');
-                }
-            } else {
-                setIsAuthenticated(false);
-            }
-        } else {
-            setIsAuthenticated(true);
-            if (router.pathname === '/') {
-                if (router.pathname !== '/') {
-                    router.push('/');
-                }
-            }
-        }
-        setLoading(false);
-    }, [router, publicPages, setLoading]);
+    //     setLoading(true);
+    //     if (!token) {
+    //         Cookies.remove('Token');
+    //         Cookies.remove('UserEmail');
+    //         if (!publicPages.includes(router.pathname)) {
+    //             setIsAuthenticated(false);
+    //             if (router.pathname !== '/login') {
+    //                 router.push('/login');
+    //             }
+    //         } else {
+    //             setIsAuthenticated(false);
+    //         }
+    //     } else {
+    //         setIsAuthenticated(true);
+    //         if (router.pathname === '/') {
+    //             if (router.pathname !== '/') {
+    //                 router.push('/');
+    //             }
+    //         }
+    //     }
+    //     setLoading(false);
+    // }, [router, publicPages, setLoading]);
 
 
-    useEffect(() => {
-        handleAuthentication();
-    }, [router, router.pathname, handleAuthentication]);
+    // useEffect(() => {
+    //     handleAuthentication();
+    // }, [router, router.pathname, handleAuthentication]);
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>

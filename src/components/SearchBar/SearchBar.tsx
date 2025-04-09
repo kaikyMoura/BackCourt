@@ -1,3 +1,4 @@
+"use client"
 import { get_players } from '@/api/services/playersService';
 import { get_teams } from '@/api/services/teamsService';
 import Image from 'next/image';

@@ -1,3 +1,4 @@
+"use client"
 import Footer from "@/components/Footer";
 import SideMenuImpl from "@/components/SideMenuImpl";
 import ToolBar from "@/components/ToolBar";
@@ -5,9 +6,9 @@ import { useAuth } from "@/contexts/AuthContext/useAuth";
 import { redirect } from "next/navigation";
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
-    const { isAuthenticated } = useAuth()
+    // const { isAuthenticated } = useAuth()
 
-    if (!isAuthenticated) redirect("/login");
+    // if (!isAuthenticated) redirect("/login");
 
     return (
         <div className="flex min-h-screen">

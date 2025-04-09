@@ -1,16 +1,16 @@
+"use client"
 import Button from "@/components/Button"
 import Card from "@/components/Card/Card"
 import Input from "@/components/Input/Input"
-import { useLoadingContext } from "@/contexts/LoadingContext/LoadingContext"
-import { useRouter } from "next/router"
+import { useRouter } from 'next/navigation'
 import { SetStateAction, useState } from "react"
 import { FaBasketball } from "react-icons/fa6"
-import styles from "./page.module.css"
+import styles from "./page.module.scss"
+import { useLoading } from "@/contexts/LoadingContext/useLoading"
 
 const Login = () => {
     const router = useRouter()
-    const { setLoading } = useLoadingContext()
-    // const { setIsAuthenticated } = useAuthContext()
+    const { setLoading } = useLoading()
 
     const [email, setEmail] = useState('')
     const [userPassword, setUserPassword] = useState('')

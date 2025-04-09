@@ -1,3 +1,4 @@
+"use client"
 import { FaHome } from "react-icons/fa"
 import { FaBasketball } from "react-icons/fa6"
 import { GiBasketballJersey } from "react-icons/gi"

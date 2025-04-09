@@ -1,3 +1,4 @@
+"use client"
 import { MouseEventHandler, useEffect } from "react";
 import { FaX } from "react-icons/fa6";
 import { GoInfo } from "react-icons/go";
