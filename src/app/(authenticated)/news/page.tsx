@@ -5,18 +5,17 @@ import Card from "@/components/Card/Card"
 import { Article } from "@/types/Article"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { TbReload } from "react-icons/tb"
 import styles from "./page.module.scss"
 import { useLoading } from "@/contexts/LoadingContext/useLoading"
 
 const News = () => {
-    const [loadingState, setLoadingState] = useState(false)
 
     const { isLoading, setLoading } = useLoading()
 
     const [articles, setArticles] = useState<Article[] | undefined>([])
-    const [headlines, setheadlines] = useState<Article[] | undefined>([])
+    // const [headlines, setheadlines] = useState<Article[] | undefined>([])
 
     const [page, setPage] = useState(1)
 
@@ -28,7 +27,17 @@ const News = () => {
 
             if (response) {
                 setLoading(false)
-                setArticles((prev) => [...(prev) || [], ...(response.data) || []])
+
+                setArticles((prev) => {
+                    // Add new data to the existing data
+                    const all = [...(prev || []), ...(response.data || [])];
+
+                    // This removes duplicates
+                    const unique = Array.from(new Map(all.map(a => [a.title, a])).values());
+
+                    return unique;
+                });
+
                 setPage((prev) => prev + 1)
             }
         }
@@ -39,7 +48,6 @@ const News = () => {
     }
 
     useEffect(() => {
-
         fetchArticles()
     }, [])
 
@@ -58,24 +66,24 @@ const News = () => {
                 />
             </div>
             <ul className="flex flex-wrap">
-                {articles && !loadingState && articles?.map(article => (
-                    <li className={styles.card} key={article.title}>
-                        <Card className={`flex flex-col justify-center`} pages={1}>
-                            <>
+                <Suspense fallback={<p>Loading...</p>}>
+                    {articles && articles?.map((article, index) => (
+                        <li className={styles.card} key={`${article.url}-${index}`}>
+                            <Card className={`flex flex-col justify-center`} pages={1}>
                                 <Link href={`${article.url}`}>
                                     <p className="font-medium text-2xl">{article.source!.toUpperCase()}</p>
                                     {article.image && (
-                                        <Image src={article.image!} onLoad={() => setLoadingState(false)} loading="lazy" className={`mt-4 ${styles.articleImage}`} alt={article.title!} width={400} height={250} />
+                                        <Image src={article.image!} loading="lazy" className={`mt-4 ${styles.articleImage}`} alt={article.title!} width={400} height={250} />
                                     )}
                                     <p className="mt-4 font-medium text-2xl">{article.title}</p>
                                 </Link>
                                 <Link href={`${article.url}`} target="_blank" rel="noreferrer">
                                     <button className="mt-4 "><p className="text-gray-900 hover:text-gray-300">Read more</p></button>
                                 </Link>
-                            </>
-                        </Card>
-                    </li>
-                ))}
+                            </Card>
+                        </li>
+                    ))}
+                </Suspense>
             </ul>
             <div className="flex justify-center w-full mb-2">
                 <Button

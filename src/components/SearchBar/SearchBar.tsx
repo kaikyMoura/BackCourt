@@ -101,7 +101,7 @@ const SearchBar = <T extends Record<string, any>>(
                 </div>
                 {query && !isLoading && filteredData.length > 0 && (
                     <ul className={`absolute w-full bg-white shadow-md ${styles.searchResults}`}>
-                        <li className="mt-2">
+                        <li key={undefined} className="mt-2 border-b border-gray-200">
                             <button className="ml-2 flex" onClick={() => setIsActivePlayer(!isActivePlayer)}>
                                 <p className='font-medium text-lg'>Is active ?</p>
                                 {isActivePlayer ?
@@ -115,15 +115,15 @@ const SearchBar = <T extends Record<string, any>>(
                                 }
                             </button>
                         </li>
-                        {filteredData.map((item, index) => (
-                            <Link href={'players/player/' + item.full_name}>
-                                <li key={index} className="flex items-center gap-4 p-2 border-b border-gray-200 cursor-pointer">
+                        {filteredData.map((item) => (
+                            <li key={item.id} className="cursor-pointer">
+                                <Link className='flex items-center gap-4 p-2 border-b border-gray-200 ' href={`/players/${item.full_name.replace(/\s+/g, "_")}`}>
                                     <Image
-                                        onLoad={() => setIsLoading(false)} ref={imgRef} src={item.image!} alt={'player-headshot'} loading="lazy" width={110} height={40}
+                                        onLoad={() => setIsLoading(false)} ref={imgRef} src={item.image! || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"} alt={'player-headshot'} loading="lazy" width={110} height={40}
                                         style={{ width: 'auto', height: 'auto' }} />
                                     <p className="font-medium text-lg">{item.full_name}</p>
-                                </li>
-                            </Link>
+                                </Link>
+                            </li>
                         ))}
                     </ul>
                 )}

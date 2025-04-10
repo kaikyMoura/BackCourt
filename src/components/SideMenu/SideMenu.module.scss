@@ -7,7 +7,7 @@
   min-height: 100% !important;
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 100;
+  z-index: 120;
   transition: width 1s ease-in-out;
 
   &.expanded {
@@ -16,7 +16,7 @@
   }
 
   li {
-    margin-left: 6px;
+    margin-left: 4px;
     transition: background-color 0.3s ease;
     
     &:hover {

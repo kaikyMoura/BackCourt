@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 import styles from './Card.module.scss';

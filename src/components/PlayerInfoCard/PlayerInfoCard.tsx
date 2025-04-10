@@ -1,97 +1,224 @@
-import Card from "../Card/Card";
-import styles from "./PlayerInfoCard.module.scss"
+"use client"
+import { get_player_info, get_players, get_players_carrer_stats } from "@/api/services/playersService";
+import { useLoading } from "@/contexts/LoadingContext/useLoading";
+import { usePlayerGif } from "@/hooks/usePlayerGif";
+import { PlayerCarrerStats } from "@/types/PlayerCarrerStats";
+import { PlayerInfo } from "@/types/PlayerInfo";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { GoInfo } from "react-icons/go";
+import Card from "../Card";
+import styles from "./PlayerInfoCard.module.scss";
 
 const PlayerInfoCard = () => {
+    const params = useParams()
+    const name = decodeURIComponent((params?.player_name as string) ?? '').replace(/_/g, ' ')
+
+    const { setLoading } = useLoading();
+
+    const [playerInfo, setPlayerInfo] = useState<PlayerInfo | null>(null);
+    const [playerHeadShot, setPlayerHeadShot] = useState<string>("");
+    const [teamLogo, setTeamLogo] = useState<string>("");
+
+    const gifUrl = usePlayerGif(`nba ${name} ${playerInfo?.team_code}`)
+
+    const [carrerTotals, setCarrerTotals] = useState<any | null>(null);
+    const [carrerStats, setCarrerStats] = useState<PlayerCarrerStats | null>(null);
+    const [seasonStats, setSeasonStats] = useState<PlayerCarrerStats | null>(null);
+
+    const fetchData = useCallback(async () => {
+        setLoading(true);
+        try {
+            const response = await get_player_info(undefined, name)
+
+            if (response.success) {
+                const player = response.data!
+
+                /**
+                 * Normalize a string by removing all whitespace and converting to
+                 * lowercase. Additionally, all accented characters are converted to
+                 * their base character.
+                 * @param str The string to normalize
+                 * @returns The normalized string
+                */
+                const normalize = (str: string) =>
+                    str.toLowerCase().replace(/\s+/g, "_").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                const teamLogo = `/${normalize(player.team_city!)}_${normalize(player.team_name!)}_primary.png`;
+
+                console.log(teamLogo)
+
+                const playerHeadShot = `https://cdn.nba.com/headshots/nba/latest/1040x760/${player.person_id}.png`
+
+                setPlayerInfo(player)
+                setTeamLogo(teamLogo)
+                setPlayerHeadShot(playerHeadShot)
+
+                if (player.person_id) {
+                    const player_season_stats = await get_players_carrer_stats(player.person_id, true, false, undefined, undefined, undefined);
+
+                    const player_common = await get_players(undefined, player.first_name! + player.last_name!, undefined, undefined, 10);
+
+                    if (!player_common?.data || !player_season_stats?.data) {
+                        console.warn("Not data found.");
+                        return;
+                    }
+
+                    const isActive = player_common.data[0]?.is_active;
+                    const seasonData = player_season_stats.data;
+
+                    const lastSeasonStats = isActive
+                        ? seasonData[0]
+                        : seasonData[seasonData.length - 1];
+
+                    setSeasonStats(lastSeasonStats);
+                }
+
+                console.log(seasonStats)
+            }
+        } catch (error) {
+            console.error('Error: ', error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log(gifUrl)
+        fetchData();
+    }, [gifUrl]);
 
     return (
-        <Card pages={1} className="p-4">
-            <div className="overflow-x-auto">
-                <table className="table-auto w-full border-collapse">
-                    <thead className="bg-(--component-color) text-white">
-                        <tr>
-                            <th className="px-4 py-2">FIRST_NAME</th>
-                            <th className="px-4 py-2">LAST_NAME</th>
-                            <th className="px-4 py-2">DISPLAY_FIRST_LAST</th>
-                            <th className="px-4 py-2">DISPLAY_LAST_COMMA_FIRST</th>
-                            <th className="px-4 py-2">DISPLAY_FI_LAST</th>
-                            <th className="px-4 py-2">PLAYER_SLUG</th>
-                            <th className="px-4 py-2">BIRTHDATE</th>
-                            <th className="px-4 py-2">SCHOOL</th>
-                            <th className="px-4 py-2">COUNTRY</th>
-                            <th className="px-4 py-2">LAST_AFFILIATION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-b">
-                            <td className="px-4 py-2">Nikola</td>
-                            <td className="px-4 py-2">Jokić</td>
-                            <td className="px-4 py-2">Nikola Jokić</td>
-                            <td className="px-4 py-2">Jokić, Nikola</td>
-                            <td className="px-4 py-2">N. Jokić</td>
-                            <td className="px-4 py-2">nikola-jokić</td>
-                            <td className="px-4 py-2">1995-02-19T00:00:00</td>
-                            <td className="px-4 py-2">Mega Basket</td>
-                            <td className="px-4 py-2">Serbia</td>
-                            <td className="px-4 py-2">Mega Basket/Serbia</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <Card className={`max-w-5xl overflow-hidden mx-auto transition-all duration-300 ease-in-out ${styles.player_card_container}`} pages={1}>
+            <div className={`relative w-full flex-wrap h-full px-6 py-8 rounded-2xl ${styles.player_card}`}>
+                {gifUrl && (
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+                        src={gifUrl}
+                    />
+                )}
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
+
+                <div className="relative flex flex-col z-10">
+                    <div className="flex gap-4">
+                        <Image
+                            src={playerHeadShot || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"}
+                            alt="player_headshot"
+                            width={300}
+                            height={300}
+                            className="rounded-lg"
+                        />
+
+                        <div className="flex flex-col w-full gap-2 ml-2">
+                            <div className="flex flex gap-6 items-center justify-between">
+                                <h2 className="font-bold text-4xl">{playerInfo?.first_name} {playerInfo?.last_name}</h2>
+                                <div className="flex gap-2 text-lg">
+                                    <p>{playerInfo?.position}</p>
+                                    <p>|</p>
+                                    <p>Jersey number - {playerInfo?.jersey}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-2 text-xl">
+                                <Image
+                                    src={teamLogo || "https://cdn.nba.com/logos/nba/1610612737/primary/L/logo.svg"}
+                                    alt="team_logo"
+                                    width={64}
+                                    height={64}
+                                />
+                                <p className="font-semibold text-lg">{playerInfo?.team_city} {playerInfo?.team_name}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-6 mt-6">
+
+                        {/* Stats Card */}
+                        <div className="flex items-start border border-white/40 rounded-xl px-6 py-4 shadow-md backdrop-blur-sm">
+                            <div className="grid grid-cols-3 gap-4 text-sm text-white">
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">PPG</p>
+                                    <p className="text-base">{seasonStats?.pts_per_game}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">RPG</p>
+                                    <p className="text-base">{seasonStats?.reb_per_game}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">APG</p>
+                                    <p className="text-base">{seasonStats?.ast_per_game}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">STL</p>
+                                    <p className="text-base">{seasonStats?.stl_per_game}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">BLK</p>
+                                    <p className="text-base">{seasonStats?.blk_per_game}</p>
+                                </div>
+                            </div>
+                            <GoInfo
+                                className="ml-4 mt-1 cursor-pointer"
+                                fontSize={22}
+                                color="#fff"
+                                data-tooltip-id="my-tooltip"
+                                data-tooltip-content="This stats is from the last season played"
+                            />
+                        </div>
+
+                        {/* Bio Card */}
+                        <div className="flex flex-col gap-4 border border-white/40 rounded-xl px-6 py-4 shadow-md backdrop-blur-sm text-white">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">HEIGHT</p>
+                                    <p className="text-base">{playerInfo?.height}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">WEIGHT</p>
+                                    <p className="text-base">{playerInfo?.weight}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">COUNTRY</p>
+                                    <p className="text-base">{playerInfo?.country}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">LAST ATTENDED</p>
+                                    <p className="text-base">{playerInfo?.last_affiliation}</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">BIRTHDATE</p>
+                                    <p className="text-base">
+                                        {playerInfo?.birthdate
+                                            ? new Intl.DateTimeFormat(navigator.language, {
+                                                year: "numeric",
+                                                month: "2-digit",
+                                                day: "2-digit",
+                                            }).format(new Date(playerInfo.birthdate))
+                                            : "N/A"}
+                                    </p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">DRAFT</p>
+                                    <p className="text-base">
+                                        {playerInfo?.draft_year} R{playerInfo?.draft_round} P{playerInfo?.draft_number}
+                                    </p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="font-semibold text-lg">SEASONS</p>
+                                    <p className="text-base">{playerInfo?.season_exp}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="overflow-x-auto mt-4">
-                <table className="table-auto w-full border-collapse">
-                    <thead className="bg-(--component-color) text-white">
-                        <tr>
-                            <th className="px-4 py-2">HEIGHT</th>
-                            <th className="px-4 py-2">WEIGHT</th>
-                            <th className="px-4 py-2">SEASON_EXP</th>
-                            <th className="px-4 py-2">JERSEY</th>
-                            <th className="px-4 py-2">POSITION</th>
-                            <th className="px-4 py-2">ROSTERSTATUS</th>
-                            <th className="px-4 py-2">GAMES_PLAYED_CURRENT_SEASON_FLAG</th>
-                            <th className="px-4 py-2">TEAM_NAME</th>
-                            <th className="px-4 py-2">TEAM_ABBREVIATION</th>
-                            <th className="px-4 py-2">TEAM_CODE</th>
-                            <th className="px-4 py-2">TEAM_CITY</th>
-                            <th className="px-4 py-2">PLAYERCODE</th>
-                            <th className="px-4 py-2">FROM_YEAR</th>
-                            <th className="px-4 py-2">TO_YEAR</th>
-                            <th className="px-4 py-2">DLEAGUE_FLAG</th>
-                            <th className="px-4 py-2">NBA_FLAG</th>
-                            <th className="px-4 py-2">GAMES_PLAYED_FLAG</th>
-                            <th className="px-4 py-2">DRAFT_YEAR</th>
-                            <th className="px-4 py-2">DRAFT_ROUND</th>
-                            <th className="px-4 py-2">DRAFT_NUMBER</th>
-                            <th className="px-4 py-2">GREATEST_75_FLAG</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-b">
-                            <td className="px-4 py-2">6-11</td>
-                            <td className="px-4 py-2">284</td>
-                            <td className="px-4 py-2">9</td>
-                            <td className="px-4 py-2">15</td>
-                            <td className="px-4 py-2">Center</td>
-                            <td className="px-4 py-2">Active</td>
-                            <td className="px-4 py-2">Y</td>
-                            <td className="px-4 py-2">Nuggets</td>
-                            <td className="px-4 py-2">DEN</td>
-                            <td className="px-4 py-2">nuggets</td>
-                            <td className="px-4 py-2">Denver</td>
-                            <td className="px-4 py-2">nikola_jokic</td>
-                            <td className="px-4 py-2">2015</td>
-                            <td className="px-4 py-2">2024</td>
-                            <td className="px-4 py-2">N</td>
-                            <td className="px-4 py-2">Y</td>
-                            <td className="px-4 py-2">Y</td>
-                            <td className="px-4 py-2">2014</td>
-                            <td className="px-4 py-2">2</td>
-                            <td className="px-4 py-2">41</td>
-                            <td className="px-4 py-2">N</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </Card>
+        </Card >
     )
 }
 
