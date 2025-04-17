@@ -14,6 +14,11 @@
   --component-color: #2e2e2e;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
 body {
   height: 100%;
   overflow: auto;

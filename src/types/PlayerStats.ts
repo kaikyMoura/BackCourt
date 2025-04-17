@@ -1,0 +1,36 @@
+export type PlayerStats = {
+    group_value: string;
+    team_id: number;
+    team_abbreviation: string;
+    max_game_date: string;
+    gp: number;
+    w: number;
+    l: number;
+    w_pct: number;
+    min: number;
+    fgm: number;
+    fga: number;
+    fg_pct: number;
+    fg3m: number;
+    fg3a: number;
+    fg3_pct: number;
+    ftm: number;
+    fta: number;
+    ft_pct: number;
+    oreb: number;
+    dreb: number;
+    reb: number;
+    ast: number;
+    tov: number;
+    stl: number;
+    blk: number;
+    blka: number;
+    pf: number;
+    pfd: number;
+    pts: number;
+    plus_minus: number;
+    nba_fantasy_pts: number;
+    dd2: number;
+    td3: number;
+    season: string;
+}

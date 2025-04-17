@@ -1,8 +1,7 @@
 "use client"
-import { get_player_info, get_players, get_players_carrer_stats } from "@/api/services/playersService";
+import { get_player_carrer_stats, get_player_info, get_players } from "@/api/services/playersService";
 import { useLoading } from "@/contexts/LoadingContext/useLoading";
 import { usePlayerGif } from "@/hooks/usePlayerGif";
-import { PlayerCarrerStats } from "@/types/PlayerCarrerStats";
 import { PlayerInfo } from "@/types/PlayerInfo";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -10,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GoInfo } from "react-icons/go";
 import Card from "../Card";
 import styles from "./PlayerInfoCard.module.scss";
+import { PlayerCareerStatsList } from "@/types/PlayerStatsList";
 
 const PlayerInfoCard = () => {
     const params = useParams()
@@ -23,9 +23,7 @@ const PlayerInfoCard = () => {
 
     const gifUrl = usePlayerGif(`nba ${name} ${playerInfo?.team_code}`)
 
-    const [carrerTotals, setCarrerTotals] = useState<any | null>(null);
-    const [carrerStats, setCarrerStats] = useState<PlayerCarrerStats | null>(null);
-    const [seasonStats, setSeasonStats] = useState<PlayerCarrerStats | null>(null);
+    const [seasonStats, setSeasonStats] = useState<PlayerCareerStatsList| null>(null);
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -56,22 +54,28 @@ const PlayerInfoCard = () => {
                 setPlayerHeadShot(playerHeadShot)
 
                 if (player.person_id) {
-                    const player_season_stats = await get_players_carrer_stats(player.person_id, true, false, undefined, undefined, undefined);
-
-                    const player_common = await get_players(undefined, player.first_name! + player.last_name!, undefined, undefined, 10);
-
+                    console.log(player.first_name! + player.last_name!)
+                    const player_common = await get_players(undefined, `${player.first_name!} ${player.last_name!}`, undefined, undefined, 10);
+                    
+                    console.log(player_common.data)
+                    
+                    const isActive = player_common.data?.[0]?.is_active;
+                    console.log(isActive)
+                    
+                    const season = isActive ? "All" : undefined;
+                    const player_season_stats = await get_player_carrer_stats(player.person_id, "Regular Season", season, 1, 10);
+                    console.log(player_season_stats.data!.seasons)
                     if (!player_common?.data || !player_season_stats?.data) {
                         console.warn("Not data found.");
                         return;
                     }
 
-                    const isActive = player_common.data[0]?.is_active;
-                    const seasonData = player_season_stats.data;
-
+                    const seasonData = isActive ? player_season_stats.data.seasons : player_season_stats.data.totals;
                     const lastSeasonStats = isActive
-                        ? seasonData[0]
-                        : seasonData[seasonData.length - 1];
+                        ? seasonData![seasonData!.length - 1]
+                        : seasonData![0];
 
+                    console.log(lastSeasonStats)
                     setSeasonStats(lastSeasonStats);
                 }
 
@@ -90,9 +94,9 @@ const PlayerInfoCard = () => {
     }, [gifUrl]);
 
     return (
-        <Card className={`max-w-5xl overflow-hidden mx-auto transition-all duration-300 ease-in-out ${styles.player_card_container}`} pages={1}>
-            <div className={`relative w-full flex-wrap h-full px-6 py-8 rounded-2xl ${styles.player_card}`}>
-                {gifUrl && (
+        <Card className={`overflow-hidden transition-all duration-300 ease-in-out`} pages={1}>
+            <div className={`relative w-full h-full px-6 py-8 rounded-2xl ${styles.player_card}`}>
+                {gifUrl && gifUrl !== null && (
                     <video
                         autoPlay
                         muted
@@ -105,23 +109,23 @@ const PlayerInfoCard = () => {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10" />
 
-                <div className="relative flex flex-col z-10">
+                <div className="relative z-10 flex flex-col">
                     <div className="flex gap-4">
                         <Image
                             src={playerHeadShot || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"}
                             alt="player_headshot"
                             width={300}
                             height={300}
-                            className="rounded-lg"
+                            className={`rounded-lg ${styles.card_player_headshot}`}
                         />
 
-                        <div className="flex flex-col w-full gap-2 ml-2">
+                        <div className="flex w-full gap-2 ml-2 md:flex-col sm:flex-col">
                             <div className="flex flex gap-6 items-center justify-between">
                                 <h2 className="font-bold text-4xl">{playerInfo?.first_name} {playerInfo?.last_name}</h2>
                                 <div className="flex gap-2 text-lg">
                                     <p>{playerInfo?.position}</p>
                                     <p>|</p>
-                                    <p>Jersey number - {playerInfo?.jersey}</p>
+                                    <p>#{playerInfo?.jersey}</p>
                                 </div>
                             </div>
 
@@ -168,13 +172,13 @@ const PlayerInfoCard = () => {
                                 fontSize={22}
                                 color="#fff"
                                 data-tooltip-id="my-tooltip"
-                                data-tooltip-content="This stats is from the last season played"
+                                data-tooltip-content="This stats is from the last/past season played"
                             />
                         </div>
 
                         {/* Bio Card */}
                         <div className="flex flex-col gap-4 border border-white/40 rounded-xl px-6 py-4 shadow-md backdrop-blur-sm text-white">
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+                            <div className="grid sm:grid-cols-3 lg:grid-cols-4 gap-4 text-sm">
                                 <div className="text-center">
                                     <p className="font-semibold text-lg">HEIGHT</p>
                                     <p className="text-base">{playerInfo?.height}</p>

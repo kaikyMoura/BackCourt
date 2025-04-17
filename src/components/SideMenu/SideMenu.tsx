@@ -32,7 +32,7 @@ const SideMenu = ({ title, items }: {
         <>
             <aside className={`${styles.sidemenu} flex items-center ${isExpanded ? styles.expanded : null} transition-all duration-500 ease-in-out`}>
                 <ul className={`flex flex-col items-center gap-6 mt-6 ${isExpanded ? "ml-6" : "ml-2"}`}>
-                    <div className='flex w-full ml-6 gap-2'>
+                    <div className='flex w-full ml-8 gap-2'>
                         <FaBasketball fontSize={28} color="#fff" />
                         {isExpanded &&
                             <h2 className={`font-semibold text-xl transition-all duration-800 ease-in-out`}>
@@ -63,9 +63,9 @@ const SideMenu = ({ title, items }: {
                     ))}
                 </ul>
             </aside>
-            <div className={`fixed ${!isExpanded ? 'left-32' : 'left-48'} top-4 transition-all duration-800 ease-in-out`} style={{ zIndex: 200 }}>
+            <div className={`fixed ${!isExpanded ? 'left-20' : 'left-48'} top-4 transition-all duration-800 ease-in-out`} style={{ zIndex: 200 }}>
                 <button onClick={toggleSidebar}>
-                    <GiHamburgerMenu className='cursor-pointer' fontSize={28} />
+                    <GiHamburgerMenu className='cursor-pointer hover:text-black' fontSize={28} />
                 </button>
             </div>
         </>

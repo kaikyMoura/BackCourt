@@ -1,36 +1,228 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h2 align="center">Backcourt | NBA Stats & News</h2>
+<p align="center"><i>Repository for the Backcourt Frontend</i></p>
 
-## Getting Started
+<div align="center">
+  
+![GitHub top language](https://img.shields.io/github/languages/top/kaikyMoura/Backcourt)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ce1f958181d743b98107dbc70dfac5ed)](https://app.codacy.com/gh/kaikyMoura/Backcourt/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+![Repository size](https://img.shields.io/github/repo-size/kaikyMoura/Backcourt)
+![Github last commit](https://img.shields.io/github/last-commit/kaikyMoura/Backcourt)
+![License](https://img.shields.io/aur/license/LICENSE)
+![Languages count](https://img.shields.io/github/languages/count/kaikyMoura/Backcourt)
 
-First, run the development server:
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+<br/>
+
+### 1. About the Project
+This project is the frontend implementation for the [Backcourt-api](https://github.com/kaikyMoura/Backcourt-api), wich collect and provide advanced basketball statistics from various online sources. The API fetches articles and data related to basketball using web scraping techniques, processes the extracted information, and serves it through RESTful endpoints. Also, it uses the nba_api retrieve official NBA statistics. 
+The frontend is built with Next.js, TypeScript, and Tailwind CSS.
+
+<br/>
+
+### 2. Key Features
+- Secure user authentication and login with tokens issued by the back-end.
+- Access management using token-based authorization.
+- News and articles display.
+- Detailed player and team stats.
+- Player and team comparison.
+- Search for players and teams.
+- Player and team profiles.
+- Stats Analysis.
+- Games Schedule.
+<!-- - Live Scores.
+- Live Game Stats.
+- Live Game Lineups.
+- Live Game Box Score. -->
+
+<br/>
+
+### 3. Technologies & Dependencies
+<div display="inline-block" gap="6">
+  <img alt="next-logo" width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" />
+  <img alt="typescript-logo" width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" />
+  <img alt="tailwindcss-logo" width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original-wordmark.svg" />
+  <img alt="sass-logo" width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg" />
+  <img alt="react-logo" width="48" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" />
+</div> 
+
+
+#### Main Dependencies:
+
+- [axios](https://axios-http.com/docs/intro):  
+  <br/>A promise-based HTTP client for making requests to APIs, supporting request/response interception and automatic transformations.
+
+- [@emotion/react](https://emotion.sh/docs/introduction):  
+  <br/>A library designed for writing CSS styles with JavaScript, providing powerful styling capabilities with high performance.
+
+- [@emotion/styled](https://emotion.sh/docs/styled):  
+  <br/>A flexible styling library that allows defining styles for components using template literals.
+
+- [@giphy/js-fetch-api](https://github.com/giphy/js-fetch-api):
+  <br/>A JavaScript library for fetching data from the Giphy API.
+
+- [jest](https://jestjs.io/):  
+  <br/>A powerful JavaScript testing framework focused on simplicity and efficiency, widely used for unit and integration testing.
+
+- [js-cookie](https://github.com/js-cookie/js-cookie):  
+  <br/>A simple JavaScript library for handling browser cookies with an easy-to-use API.
+
+- [next.js](https://nextjs.org/):  
+  <br/>A React framework for production, offering hybrid static and server rendering, route pre-fetching, and API routes.
+
+- [react](https://react.dev/):  
+  <br/>A JavaScript library for building user interfaces with a component-based architecture.
+
+- [react-icons](https://react-icons.github.io/react-icons/):  
+  <br/>A collection of popular icon libraries as React components, supporting FontAwesome, Material Icons, and more.
+
+- [react-tooltip](https://react-tooltip.com/):  
+  <br/>A library for creating customizable tooltips in React applications.
+
+- [sass](https://sass-lang.com/):  
+  <br/>A CSS preprocessor that adds features like variables, nested rules, and mixins to enhance styling.
+
+- [scss](https://sass-lang.com/documentation/syntax#scss):  
+  <br/>A syntax for Sass that is similar to CSS, providing additional features for styling.
+
+- [tailwindcss](https://tailwindcss.com/):
+  <br/>A utility-first CSS framework for rapidly creating custom user interfaces.
+
+- [typescript](https://www.typescriptlang.org/):
+  <br/>A typed superset of JavaScript that adds static typing and features like classes and interfaces.
+
+<br/>
+
+
+### 4. Architecture
+
+The project follows a **modular architecture** with a clear separation of concerns, utilizing Next.js's built-in routing and API capabilities.
+
+#### 📂 Project Structure:
+- src/
+  - components/ # Reusable UI components
+      - Button/
+        - index.tsx
+        - Button.tsx
+        - Button.module.scss
+          
+  - app/ # Next.js routing system
+    - page.tsx # Landing page
+    - login/
+      - page.tsx # Login page
+      - page.module.scss
+        
+  - hooks/ # Custom React hooks
+
+  - lib/ # Utility functions
+
+  - services/ # API and business logic
+    - index.ts # Axios instance and request handlers
+      
+  - context/ # Global state management
+    
+  - utils/ # Helper functions
+    
+  - types/ # TypeScript interfaces and types
+    - Player.ts
+      
+  - styles/ # Global styles
+    - globals.css
+
+<br/>
+  
+### 5. Installation and Setup
+
+### Prerequisites:
+Before running the project, ensure that **Node.js** is installed on your machine. If not, you can download it from the [official Node.js website](https://nodejs.org/en/) (LTS version recommended).
+
+To verify your Node.js installation, run:
+
+```console
+node -v
+npm -v
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Clone the repository to your local machine:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```console
+git clone https://github.com/kaikyMoura/BackCourt.git
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Navigate to the project's root directory:
 
-## Learn More
+```console
+cd BackCourt
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Installing dependencies:
+Use npm or yarn to install the project dependencies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```console
+npm install
+# or
+pnpm install
+# or
+yarn install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Running the Application:
+Once the dependencies are installed, you can start the development server with:
 
-## Deploy on Vercel
+```console
+npm run dev
+# or
+pnpm run dev
+# or
+yarn dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### The application will be available on:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```console
+http://localhost:3000
+```
+
+<br/>
+
+### 6. 🚀 Deploy
+### Deployment on Vercel with Continuous Integration
+
+The deployment of the project is done on **Vercel**, leveraging **Continuous Integration** for automatic builds and deployments. Any changes pushed to the repository on GitHub are automatically built and deployed to Vercel. 
+
+#### Key Points:
+- The project is automatically built and deployed whenever changes are pushed to the GitHub repository.
+- **Environment Variables** are configured directly in the Vercel dashboard, ensuring seamless integration between build and deployment.
+- **Custom Domain** can be configured for the deployed application, with automatic SSL certificate setup by Vercel.
+  
+The application is accessible via the unique Vercel-generated URL:
+
+```bash
+# https://backcourt.vercel.app
+```
+
+<br/>
+
+### 7. Pages Documentation
+
+|  Page |  Description |
+| --- | --- |
+|  `/registration`	 |  Register new user  |
+|  `/login`  |	Authenticate and get token |
+|  `/`  |  Main page  |
+|  `/news`  |  Display news/articles  |
+|  `/players`  |  Display players  |
+|  `/players/[player_name]`  |  Display player info and stats  |
+|  `/teams`  |  Display teams  |
+|  `/games`  |  Display games  |
+|  `/analytics`  |  Display analytics  |
+
+> ⚠️ **Important**
+> </br> When new pages are added, the path will be included in the documentation
+
+<br/>
+
+### 8. 📝 Terms of Use
+- **Non-commercial** project.
+- All rights related to user data and privacy are respected.
+- This project aims to serve as a learning and portfolio tool.

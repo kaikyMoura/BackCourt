@@ -13,6 +13,9 @@ export function usePlayerGif(searchParam: string) {
         if (data.length > 0) {
           setGifUrl(data[0].images.original_mp4.mp4 || data[0].images.original.url);
         }
+        else {
+          setGifUrl(null);
+        }
       } catch (error) {
         console.error('Error willing search gif:', error);
       }

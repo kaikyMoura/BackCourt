@@ -117,7 +117,7 @@ const SearchBar = <T extends Record<string, any>>(
                         </li>
                         {filteredData.map((item) => (
                             <li key={item.id} className="cursor-pointer">
-                                <Link className='flex items-center gap-4 p-2 border-b border-gray-200 ' href={`/players/${item.full_name.replace(/\s+/g, "_")}`}>
+                                <Link className='flex items-center gap-4 p-2 border-b border-gray-200 ' href={`/players/${item.full_name.replace(/\s+/g, "_")}`} onClick={clearInput}>
                                     <Image
                                         onLoad={() => setIsLoading(false)} ref={imgRef} src={item.image! || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"} alt={'player-headshot'} loading="lazy" width={110} height={40}
                                         style={{ width: 'auto', height: 'auto' }} />
