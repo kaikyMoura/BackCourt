@@ -8,6 +8,7 @@ import { FaSearch } from 'react-icons/fa';
 import { FaToggleOff, FaToggleOn, FaX } from 'react-icons/fa6';
 import useLazyLoading from '../../hooks/useLazyLoading';
 import styles from './SearchBar.module.scss';
+import { useSearchCountStore } from '@/stores/useSearchCountStore';
 
 const SearchBar = <T extends Record<string, any>>(
     props: {
@@ -15,6 +16,7 @@ const SearchBar = <T extends Record<string, any>>(
     }) => {
 
     const { imgRef, isVisible } = useLazyLoading();
+    const { incrementePlayerSearchCount, getTopSearchedPlayers } = useSearchCountStore()
 
     const [query, setQuery] = useState('');
     const [filteredData, setFilteredData] = useState<T[]>([]);
@@ -73,7 +75,10 @@ const SearchBar = <T extends Record<string, any>>(
         setFilteredData(filtered);
     }, [query, allData]);
 
-    const clearInput = () => {
+    const clearInput = async (player_name: string) => {
+        if (player_name) {
+            await incrementePlayerSearchCount(player_name);
+        }
         setQuery('');
         setFilteredData([]);
     };
@@ -90,7 +95,7 @@ const SearchBar = <T extends Record<string, any>>(
                     />
 
                     {query && (
-                        <button className="absolute right-12 cursor-pointer" onClick={clearInput}>
+                        <button className="absolute right-12 cursor-pointer" onClick={() => clearInput}>
                             <FaX fontSize={20} color='#fff' />
                         </button>
                     )}
@@ -117,7 +122,7 @@ const SearchBar = <T extends Record<string, any>>(
                         </li>
                         {filteredData.map((item) => (
                             <li key={item.id} className="cursor-pointer">
-                                <Link className='flex items-center gap-4 p-2 border-b border-gray-200 ' href={`/players/${item.full_name.replace(/\s+/g, "_")}`} onClick={clearInput}>
+                                <Link className='flex items-center gap-4 p-2 border-b border-gray-200 ' href={`/players/${item.full_name.replace(/\s+/g, "_")}`} onClick={() => clearInput(item.full_name)}>
                                     <Image
                                         onLoad={() => setIsLoading(false)} ref={imgRef} src={item.image! || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"} alt={'player-headshot'} loading="lazy" width={110} height={40}
                                         style={{ width: 'auto', height: 'auto' }} />

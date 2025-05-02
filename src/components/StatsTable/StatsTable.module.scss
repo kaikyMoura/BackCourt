@@ -4,9 +4,60 @@
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
     z-index: 100;
     color: var(--text-color);
-    
+
     & thead {
         background-color: #808080;
         border-radius: 10px;
     }
+
+    & tr:hover {
+        cursor: pointer;
+        background-color: #808080;
+        border-radius: 10px;
+    }
+}
+
+.modalInput {
+    width: 320px;
+    height: 40px;
+    padding: 6px;
+    gap: 0px;
+    border-radius: 8px;
+    color: var(--text-color);
+    background-color: #808080;
+    box-shadow: 0px 1px 2px 0px #808080;
+    font-size: small;
+    z-index: 100;
+
+    &:focus {
+        outline: none;
+        opacity: 1;
+    }
+}
+
+.arrow {
+    fill: var(--text-color);
+    z-index: 100000;
+    transition: 300ms;
+}
+
+.options {
+    width: 320px;
+    min-height: 40px;
+    padding: 6px;
+    gap: 0px;
+    border-radius: 8px;
+    color: var(--text-color);
+    background-color: #808080;
+    box-shadow: 0px 1px 2px 0px #808080;
+    font-size: small;
+    z-index: 100;
+    max-height: 100%;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.options li:hover {
+    border-radius: 6px;
+    background-color: #161616;
+    color: #fff;
 }

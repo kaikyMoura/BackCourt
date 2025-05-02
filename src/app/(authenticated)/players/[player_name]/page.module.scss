@@ -1,5 +1,6 @@
 .container { 
     position: relative;
     overflow-x: hidden;
+    width: calc(100% - var(--sidebar-width));
     max-width: calc(100vw - var(--sidebar-width));
 }

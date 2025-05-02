@@ -62,7 +62,7 @@ const Signup = () => {
                     <div className={styles.card}>
                         <div className={`flex justify-center gap-2 mb-2 ${styles.icon}`}>
                             <FaBasketball fontSize={32} color="#fff" />
-                            <h3 className="flex items-center font-semibold text-lg">Basketball Advanced Stats</h3>
+                            <h3 className="flex items-center font-semibold text-lg">BackCourt | NBA Stats & News</h3>
                         </div>
                         <Input label={"User name"} placeholder={"User name"} type={"text"} onChange={(e: { target: { value: SetStateAction<string> } }) =>
                             setUserName(e.target.value)} value={userName} />

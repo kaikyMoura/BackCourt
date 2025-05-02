@@ -8,9 +8,10 @@ const PlayerDetails = () => {
     return (
         <div className={`${styles.container} lg:-ml-10`}>
             <PlayerInfoCard />
-            <div className="mt-4">
+            <div className="mt-6">
                 <StatsTable />
             </div >
+            {/* TODO: Add player team mates */}
         </div >
     )
 }

@@ -1,12 +1,13 @@
 import { JSX } from "react";
 import styles from "./Button.module.scss";
 
-const Button = ({ style, type, width, height, text, className, action, disabled, icon }: {
-    style: 'primary' | 'secondary' | { type: 'custom', color: string };
+const Button = ({ children, style, type, width, height, text, className, action, disabled, icon }: {
+    children?: React.ReactNode;
+    style: 'primary' | 'secondary' | { type: 'custom', backgroundColor:string, color: string };
     type?: 'button' | 'submit' | 'reset';
     width?: number;
     height?: number;
-    text: string;
+    text?: string;
     className?: string;
     action?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     disabled?: boolean;
@@ -21,14 +22,22 @@ const Button = ({ style, type, width, height, text, className, action, disabled,
 
     const customStyle =
         typeof style === 'object' && style.type === 'custom'
-            ? { backgroundColor: style.color }
+            ? { backgroundColor: style.backgroundColor, color: style.color }
             : {};
 
     return (
         <>
             <button className={`${className} ${styles.styledButton} ${style == "primary" ? styles.primary : styles.secondary}`} type={type} style={{ width, height, ...customStyle }} onClick={handleClick} disabled={disabled}>
-                <p>{text}</p>
-                {icon && icon}
+                {text || icon ?
+                    <>
+                        <p>{text}</p>
+                        {icon && icon}
+                    </>
+                    :
+                    <>
+                        {children}
+                    </>
+                }
             </button>
         </>
     )

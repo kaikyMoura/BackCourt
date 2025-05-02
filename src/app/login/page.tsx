@@ -24,7 +24,7 @@ const Login = () => {
                 <div className={styles.card}>
                     <div className={`flex justify-center gap-2 mb-2 ${styles.icon}`}>
                         <FaBasketball fontSize={32} color="#fff" />
-                        <h3 className="flex items-center font-semibold text-lg">Basketball Advanced Stats</h3>
+                        <h3 className="flex items-center font-semibold text-lg">BackCourt</h3>
                     </div>
 
                     <div className="mt-4 flex flex-col items-center gap-2">

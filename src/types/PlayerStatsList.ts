@@ -1,4 +1,5 @@
 export type PlayerCareerStatsList = {
+    player_id?: number; // In the api this field is not present, but we can add it manually if needed.
     season_id?: string;
     league_id: string;
     team_id: number;

@@ -6,7 +6,7 @@ import { PlayerAwardDetails } from "@/types/PlayerAwardDetails";
 import { PlayerCareerStatsResponse } from "@/types/PlayerCareerStatsResponse";
 import { PlayerInfo } from "@/types/PlayerInfo";
 import axios, { AxiosError } from "axios";
-import api from "..";
+import api from "../backCourtApi";
 
 const get_players = async (is_active?: boolean | true, player_name?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Player[]>> => {
     const params = new URLSearchParams();
@@ -70,7 +70,7 @@ const get_player_info = async (player_id?: number, player_name?: string): Promis
 }
 
 const get_player_carrer_stats = async (player_id?: number | string,
-    season_type?: "Regular Season" | "Post season" | "Playoffs", season?: string, page?: number, pageSize?: number):
+    season_type?: "Regular Season" | "Pre Season" | "Playoffs", season?: string, page?: number, pageSize?: number):
     Promise<ApiResponse<PlayerCareerStatsResponse>> => {
     const params = new URLSearchParams();
 
@@ -126,16 +126,13 @@ const get_player_awards = async (player_id?: number | string, detailed?: boolean
 }
 
 
-const get_player_advanced_stats = async (player_id: number | string, dataset:
-    "Overall" | "LastNGames" | "DaysRestModified" | "Opponent"
-    ,
+const get_player_advanced_stats = async (player_id: number | string,
     per_mode: "Totals" | "Per36" | "PerGame",
     season?: string,
     season_type?: "Regular Season" | "Pre Season" | "Playoffs"): Promise<ApiResponse<PlayerAdvancedStats>> => {
     const params = new URLSearchParams();
 
     try {
-        if (dataset) params.append("dataset", dataset);
         if (per_mode) params.append("per_mode", per_mode);
         if (season) params.append("season", season.toString());
         if (season_type) params.append("season_type", season_type.toString())

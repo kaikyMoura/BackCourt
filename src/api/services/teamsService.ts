@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/types/ApiResponse";
 import { ErrorResponse } from "@/types/ErrorReponse";
 import axios, { AxiosError } from "axios";
-import api from "..";
+import api from "../backCourtApi";
 import { Team } from "@/types/Team";
 
 export const get_teams = async (team_name?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Team[]>> => {

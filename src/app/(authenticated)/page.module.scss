@@ -1,27 +1,19 @@
 .container {
+    color: var(--text-color);
+
     button {
         color: var(--text-color);
     }
 }
 
-.card {
-    justify-self: center;
-    align-self: center;
-    scale: calc(0.9);
-    background-color: #2e2e2e;
-    padding: 26px;
-    width: 30em;
+.player_card {
+    background-color: var(--component-color);
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.hero_gradient {
+    padding: 16px;
+    background: #2699ef;
     border-radius: 10px;
-
-    & .icon svg {
-        padding: 6px;
-        border-radius: 10px;
-        background-color: #2699ef;
-
-    }
-
-    & .icon h3 {
-        color: #fff;
-    }
-
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.4);
 }

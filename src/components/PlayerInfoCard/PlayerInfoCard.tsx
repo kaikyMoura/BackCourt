@@ -10,6 +10,7 @@ import { GoInfo } from "react-icons/go";
 import Card from "../Card";
 import styles from "./PlayerInfoCard.module.scss";
 import { PlayerCareerStatsList } from "@/types/PlayerStatsList";
+import Link from "next/link";
 
 const PlayerInfoCard = () => {
     const params = useParams()
@@ -21,9 +22,16 @@ const PlayerInfoCard = () => {
     const [playerHeadShot, setPlayerHeadShot] = useState<string>("");
     const [teamLogo, setTeamLogo] = useState<string>("");
 
-    const gifUrl = usePlayerGif(`nba ${name} ${playerInfo?.team_code}`)
+    const gifUrl = usePlayerGif(
+        `nba ${name} ${playerInfo?.team_code}`,
+        `nba ${playerInfo?.team_code} ${name}`,
+        `${playerInfo?.team_code} ${playerInfo?.team_city} ${name}`,
+        `${playerInfo?.team_code} ${name}`,
+        `nba ${name}`,
+        `${name}`
+    );
 
-    const [seasonStats, setSeasonStats] = useState<PlayerCareerStatsList| null>(null);
+    const [seasonStats, setSeasonStats] = useState<PlayerCareerStatsList | null>(null);
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -56,14 +64,14 @@ const PlayerInfoCard = () => {
                 if (player.person_id) {
                     console.log(player.first_name! + player.last_name!)
                     const player_common = await get_players(undefined, `${player.first_name!} ${player.last_name!}`, undefined, undefined, 10);
-                    
+
                     console.log(player_common.data)
-                    
+
                     const isActive = player_common.data?.[0]?.is_active;
                     console.log(isActive)
-                    
+
                     const season = isActive ? "All" : undefined;
-                    const player_season_stats = await get_player_carrer_stats(player.person_id, "Regular Season", season, 1, 10);
+                    const player_season_stats = await get_player_carrer_stats(player.person_id, "Regular Season", season, 1, 25);
                     console.log(player_season_stats.data!.seasons)
                     if (!player_common?.data || !player_season_stats?.data) {
                         console.warn("Not data found.");
@@ -120,7 +128,7 @@ const PlayerInfoCard = () => {
                         />
 
                         <div className="flex w-full gap-2 ml-2 md:flex-col sm:flex-col">
-                            <div className="flex flex gap-6 items-center justify-between">
+                            <div className="flex flex gap-6 items-center justify-between text-white">
                                 <h2 className="font-bold text-4xl">{playerInfo?.first_name} {playerInfo?.last_name}</h2>
                                 <div className="flex gap-2 text-lg">
                                     <p>{playerInfo?.position}</p>
@@ -130,13 +138,16 @@ const PlayerInfoCard = () => {
                             </div>
 
                             <div className="flex items-center gap-2 text-xl">
-                                <Image
-                                    src={teamLogo || "https://cdn.nba.com/logos/nba/1610612737/primary/L/logo.svg"}
-                                    alt="team_logo"
-                                    width={64}
-                                    height={64}
-                                />
-                                <p className="font-semibold text-lg">{playerInfo?.team_city} {playerInfo?.team_name}</p>
+                                <Link href={`/teams/${playerInfo?.team_name?.replace(/\s+/g, "_").toLowerCase()}`} className="w-16 h-16 rounded-full shadow-md bg-white flex items-center justify-center hover:scale-110 hover:shadow-lg">
+                                    <Image
+                                        className="w-14 h-14 object-contain"
+                                        src={teamLogo || "https://cdn.nba.com/logos/nba/1610612737/primary/L/logo.svg"}
+                                        alt="team_logo"
+                                        width={64}
+                                        height={64}
+                                    />
+                                </Link>
+                                <p className="font-semibold text-lg text-white">{playerInfo?.team_city} {playerInfo?.team_name}</p>
                             </div>
                         </div>
                     </div>
@@ -185,7 +196,7 @@ const PlayerInfoCard = () => {
                                 </div>
                                 <div className="text-center">
                                     <p className="font-semibold text-lg">WEIGHT</p>
-                                    <p className="text-base">{playerInfo?.weight}</p>
+                                    <p className="text-base">{playerInfo?.weight} lbs</p>
                                 </div>
                                 <div className="text-center">
                                     <p className="font-semibold text-lg">COUNTRY</p>

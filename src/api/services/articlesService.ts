@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/types/ApiResponse";
 import { Article } from "@/types/Article";
 import axios, { AxiosError } from "axios";
-import api from '..';
+import api from '../backCourtApi';
 import { ErrorResponse } from '../../types/ErrorReponse';
 
 export const getArticles = async (source?: string, player_name?: string, limit?: number, page?: number, pageSize?: number): Promise<ApiResponse<Article[]>> => {
