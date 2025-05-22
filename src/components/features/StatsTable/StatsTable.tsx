@@ -81,21 +81,34 @@ const StatsTable = () => {
 
     const fields = careerStats
         ? [
-            'season', 'team', 'gp', 'min', 'pts',
-            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', '3p_pct',
+            'season_id', 'team_abbreviation', 'gp', 'min', 'pts',
+            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', 'fg3_pct',
             'ftm', 'fta', 'ft_pct', 'dreb', 'oreb', 'reb',
             'ast', 'stl', 'blk', 'tov', 'pf'
         ]
         : [
-            'season', 'team', 'gp', 'min', 'pts',
-            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', '3p_pct',
+            'group_value', 'team_abbreviation', 'gp', 'min', 'pts',
+            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', 'fg3_pct',
             'ftm', 'fta', 'ft_pct', 'dreb', 'oreb', 'reb',
             'ast', 'stl', 'blk', 'tov', 'pf'
         ];
 
-    const headers = fields.map(f =>
-        f.replace(/_/g, ' ').replace('pct', '%').toUpperCase()
-    );
+    const headers = fields.map(f => {
+        let label = f.replace(/_/g, ' ').replace('pct', '%').toUpperCase();
+        if (f === 'season_id') {
+            label = 'season';
+        }
+        if (f === 'group_value') {
+            label = 'season';
+        }
+        if (f === 'team_abbreviation') {
+            label = 'team';
+        }
+        if (f === 'fg3_pct') {
+            label = '3P%';
+        }
+        return label;
+    });
 
     const TableSkeleton: React.FC = ({ columns = 5, rows = 10 }: { columns?: number; rows?: number }) => {
         return (

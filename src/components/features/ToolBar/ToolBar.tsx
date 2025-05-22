@@ -12,6 +12,26 @@ import { useLoading } from "../../ui/Loader/hook";
 import SearchInput from "../../ui/SearchInput";
 import styles from "./ToolBar.module.scss";
 
+type CombinedData =
+    | {
+        image: string;
+        id?: number;
+        full_name: string;
+        first_name: string;
+        last_name: string;
+        is_active: boolean;
+    }
+    | {
+        image: string;
+        id?: number;
+        full_name: string;
+        abbreviation: string;
+        nickname: string;
+        city: string;
+        state: string;
+        year_founded: number;
+    };
+
 const ToolBar = () => {
     const router = useRouter();
     const { theme, toggleTheme } = useTheme()
@@ -21,7 +41,7 @@ const ToolBar = () => {
 
     const { incrementePlayerSearchCount } = useSearchCountStore()
 
-    const [allData, setAllData] = useState<any[]>([]);
+    const [allData, setAllData] = useState<CombinedData[]>([]);
 
     const [isActivePlayer, setIsActivePlayer] = useState(true)
 
@@ -46,7 +66,7 @@ const ToolBar = () => {
                 image: "/" + team.full_name.toLowerCase().replace(/\s+/g, "_") + "_primary.png"
             }));
 
-            const combinedData = [...(playersWithImages || []), ...(teamsWithImages || [])] as unknown as any[];
+            const combinedData = [...(playersWithImages || []), ...(teamsWithImages || [])] as unknown as CombinedData[];
 
             setAllData(combinedData)
         } catch (error) {
@@ -71,7 +91,7 @@ const ToolBar = () => {
         <div className={`fixed z-120 ${styles.toolbar_container}`}>
             <div className={`flex items-center justify-center ml-4 mr-4`}>
                 <SearchInput keys={['full_name']} placeholder={"search players"}
-                    data={allData} label={""} onSelect={(player) => handleSelect(player)} imageKey={"image"} isActive={isActivePlayer}
+                    data={allData} onSelect={(player) => handleSelect(player as Player)} imageKey={"image"} isActive={isActivePlayer}
                     setActive={setIsActivePlayer} />
                 {/* Theme switcher */}
                 <div className="fixed top-5 right-2">

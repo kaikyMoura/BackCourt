@@ -8,8 +8,8 @@ const Footer = ({ }) => {
         <footer className={`w-full ${styles.footer}`}>
 
             <div className="flex gap-6 ml-auto">
-                <Link className="flex gap-1" href={"https://github.com/kaikyMoura/BackCourt"}>
-                    <FaGithub fontSize={20} className="text-(--text-color)" />
+                <Link className="flex gap-1 text-(--text-color) hover:text-gray-400" href={"https://github.com/kaikyMoura/BackCourt"}>
+                    <FaGithub fontSize={20}/>
                     <p>Github</p>
                 </Link>
                 <p className="mr-4 mb-2" >© 2025 - Backcourt</p>

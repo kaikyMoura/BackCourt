@@ -1,17 +1,15 @@
 "use client"
+import useLazyLoading from '@/hooks/useLazyLoading';
 import Image from 'next/image';
-import Link from 'next/link';
 import { SetStateAction, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FaToggleOff, FaToggleOn, FaX } from 'react-icons/fa6';
 import styles from './SearchInput.module.scss';
-import useLazyLoading from '@/hooks/useLazyLoading';
 
 interface SearchInputProps<T extends object> {
     placeholder: string;
     data: T[];
     imageKey?: keyof T;
-    label: string;
     keys: (keyof T)[];
     onSelect: (item: T) => void;
     isActive: boolean;
@@ -22,7 +20,6 @@ const SearchInput = <T extends object>({
     placeholder,
     data: allData,
     imageKey,
-    label,
     keys,
     onSelect,
     isActive,
