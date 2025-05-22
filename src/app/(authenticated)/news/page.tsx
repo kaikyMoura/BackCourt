@@ -2,16 +2,15 @@
 import { getArticles } from "@/api/services/articlesService"
 import Button from "@/components/Button"
 import Card from "@/components/Card/Card"
+import { useLoading } from "@/contexts/LoadingContext/useLoading"
 import { Article } from "@/types/Article"
 import Image from "next/image"
 import Link from "next/link"
 import { Suspense, useCallback, useEffect, useState } from "react"
 import { TbReload } from "react-icons/tb"
 import styles from "./page.module.scss"
-import { useLoading } from "@/contexts/LoadingContext/useLoading"
 
 const News = () => {
-
     const { isLoading, setLoading } = useLoading()
 
     const [articles, setArticles] = useState<Article[] | undefined>([])
@@ -19,20 +18,19 @@ const News = () => {
 
     const [page, setPage] = useState(1)
 
-    const fetchArticles =  useCallback(async () => {
-        setLoading(true)
-
+    const fetchArticles = useCallback(async () => {
         try {
+            setLoading(true)
             const response = await getArticles(undefined, undefined, undefined, page, 8)
 
             if (response) {
                 setLoading(false)
 
                 setArticles((prev) => {
-                    // Add new data to the existing data
+                    // add new data to the existing data
                     const all = [...(prev || []), ...(response.data || [])];
 
-                    // This removes duplicates
+                    // removing duplicates
                     const unique = Array.from(new Map(all.map(a => [a.title, a])).values());
 
                     return unique;
@@ -45,7 +43,10 @@ const News = () => {
             setLoading(false)
             console.error("Error: " + err)
         }
-    }, [page, setLoading])
+        finally {
+            setLoading(false)
+        }
+    }, [setLoading])
 
     useEffect(() => {
         fetchArticles()

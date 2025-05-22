@@ -1,6 +1,6 @@
 'use client'
 import { usePathname } from "next/navigation";
-import { createContext, Dispatch, ReactNode, SetStateAction, startTransition, useEffect, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { useLoading } from "../LoadingContext/useLoading";
 
 interface RouteTransitionContextProps {
@@ -17,13 +17,11 @@ export const RouteTransitionProvider: React.FC<{ children: ReactNode }> = ({ chi
     const { setLoading } = useLoading()
 
     useEffect(() => {
-        startTransition(() => {
-            setLoading(true);
-        });
-
         const timer = setTimeout(() => {
             setLoading(false);
         }, 500);
+
+        setLoading(true);
 
         return () => clearTimeout(timer);
     }, [pathname, setLoading]);

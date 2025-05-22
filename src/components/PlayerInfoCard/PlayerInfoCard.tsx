@@ -34,8 +34,8 @@ const PlayerInfoCard = () => {
     const [seasonStats, setSeasonStats] = useState<PlayerCareerStatsList | null>(null);
 
     const fetchData = useCallback(async () => {
-        setLoading(true);
         try {
+            setLoading(true);
             const response = await get_player_info(undefined, name)
 
             if (response.success) {
@@ -85,16 +85,19 @@ const PlayerInfoCard = () => {
 
                     console.log(lastSeasonStats)
                     setSeasonStats(lastSeasonStats);
+
+                    setLoading(false);
                 }
 
                 console.log(seasonStats)
             }
         } catch (error) {
+            setLoading(false);
             console.error('Error: ', error);
         } finally {
             setLoading(false);
         }
-    }, [name, seasonStats, setLoading]);
+    }, [name, setLoading]);
 
     useEffect(() => {
         console.log(gifUrl)

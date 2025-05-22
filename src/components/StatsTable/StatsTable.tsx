@@ -81,14 +81,14 @@ const StatsTable = () => {
 
     const fields = careerStats
         ? [
-            'season_id', 'team_abbreviation', 'gp', 'min', 'pts',
-            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', 'fg3_pct',
+            'season', 'team', 'gp', 'min', 'pts',
+            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', '3p_pct',
             'ftm', 'fta', 'ft_pct', 'dreb', 'oreb', 'reb',
             'ast', 'stl', 'blk', 'tov', 'pf'
         ]
         : [
-            'group_value', 'team_abbreviation', 'gp', 'min', 'pts',
-            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', 'fg3_pct',
+            'season', 'team', 'gp', 'min', 'pts',
+            'fgm', 'fga', 'fg_pct', 'fg3m', 'fg3a', '3p_pct',
             'ftm', 'fta', 'ft_pct', 'dreb', 'oreb', 'reb',
             'ast', 'stl', 'blk', 'tov', 'pf'
         ];

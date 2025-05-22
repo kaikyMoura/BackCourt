@@ -22,9 +22,10 @@ const Home = () => {
     const [articles, setArticles] = useState<Article[] | undefined>([])
 
     const fetchData = useCallback(async () => {
-        const topRatedPlayers = await getTopSearchedPlayers()
-        setLoading(true);
         try {
+            setLoading(true);
+            const topRatedPlayers = await getTopSearchedPlayers()
+
             for (const topRatedPlayer of topRatedPlayers) {
                 const response = await get_player_info(undefined, topRatedPlayer.name)
                 setPlayersInfo((prev) => {
@@ -66,6 +67,8 @@ const Home = () => {
                             player_id: playerInfo.person_id
                         }
                     }));
+
+                    setLoading(false);
                 }
             }
         } catch (error) {
