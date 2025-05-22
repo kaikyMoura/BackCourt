@@ -1,6 +1,6 @@
 .toolbar_container {
     width: calc(100% - 240px);
-    margin-left: 250px;
+    margin-left: var(--sidebar-width);
     transition: margin-left 0.5s ease, width 0.5s ease;
 }
 

@@ -2,7 +2,7 @@
 import { getArticles } from "@/api/services/articlesService"
 import { get_player_carrer_stats, get_player_info, get_players } from "@/api/services/playersService"
 import Card from "@/components/Card"
-import { useLoading } from "@/contexts/LoadingContext/useLoading"
+import { useLoading } from "@/components/Loader/hook"
 import { useSearchCountStore } from "@/stores/useSearchCountStore"
 import { Article } from "@/types/Article"
 import { PlayerInfo } from "@/types/PlayerInfo"
@@ -125,77 +125,79 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className="py-12">
-                <div className="container mx-auto px-4">
-                    <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-3xl font-bold">🔥 Trending Players</h2>
-                        <Link href="/players" className="text-blue-600 font-medium hover:text-blue-800">View All Players →</Link>
-                    </div>
+            {playersInfo && seasonStatsByPlayer && (
+                <section className="py-12">
+                    <div className="container mx-auto px-4">
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className="text-3xl font-bold">🔥 Trending Players</h2>
+                            <Link href="/players" className="text-blue-600 font-medium hover:text-blue-800">View All Players →</Link>
+                        </div>
 
-                    <div className="relative">
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {playersInfo?.map((player) => {
-                                const playerStats = seasonStatsByPlayer[player.person_id!];
+                        <div className="relative">
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {playersInfo?.map((player) => {
+                                    const playerStats = seasonStatsByPlayer[player.person_id!];
 
-                                const normalize = (str: string) =>
-                                    str.toLowerCase().replace(/\s+/g, "_").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                                    const normalize = (str: string) =>
+                                        str.toLowerCase().replace(/\s+/g, "_").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-                                const teamLogo = `/${normalize(player.team_city!)}_${normalize(player.team_name!)}_primary.png`;
+                                    const teamLogo = `/${normalize(player.team_city!)}_${normalize(player.team_name!)}_primary.png`;
 
-                                return (
-                                    <li key={player.person_id}>
-                                        <Card className={`${styles.player_card} rounded-xl overflow-hidden transition duration-300 hover:scale-105`} pages={1}>
-                                            <div className="relative inline-block">
-                                                <Image
-                                                    src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${player.person_id}.png` || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"}
-                                                    alt="player_headshot"
-                                                    loading="lazy"
-                                                    width={300}
-                                                    height={300}
-                                                    className={`rounded-lg ${styles.card_player_headshot}`}
-                                                />
-                                                <Link href={`/teams/${player.team_name?.replace(/\s+/g, "_").toLowerCase()}`} className="absolute top-2 left-2 w-12 h-12 rounded-full shadow-md bg-white flex items-center justify-center hover:scale-110 hover:shadow-lg">
+                                    return (
+                                        <li key={player.person_id}>
+                                            <Card className={`${styles.player_card} rounded-xl overflow-hidden transition duration-300 hover:scale-105`} pages={1}>
+                                                <div className="relative inline-block">
                                                     <Image
-                                                        className="w-10 h-10 object-contain"
-                                                        src={teamLogo || "https://cdn.nba.com/logos/nba/1610612737/primary/L/logo.svg"}
-                                                        alt="team_logo"
-                                                        width={40}
-                                                        height={40}
+                                                        src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${player.person_id}.png` || "https://cdn.nba.com/headshots/nba/latest/1040x760/0.png"}
+                                                        alt="player_headshot"
+                                                        loading="lazy"
+                                                        width={300}
+                                                        height={300}
+                                                        className={`rounded-lg ${styles.card_player_headshot}`}
                                                     />
-                                                </Link>
-                                            </div>
-                                            <div className="p-4">
-                                                <h3 className="font-bold text-xl">{player?.first_name} {player?.last_name}</h3>
-                                                <p className="text-gray-600 text-sm mb-2">{player?.position} | #{player?.jersey} | {player?.height}</p>
-                                                <div className="flex justify-between text-sm">
-                                                    <div className="px-2 py-1 rounded shadow-md hover:">
-                                                        <span className="font-bold text-blue-600">{playerStats?.pts_per_game}</span> PPG
-                                                    </div>
-                                                    <div className="px-2 py-1 rounded shadow-md hover:shadow-lg">
-                                                        <span className="font-bold text-blue-600">{playerStats?.reb_per_game}</span> RPG
-                                                    </div>
-                                                    <div className="px-2 py-1 rounded shadow-md">
-                                                        <span className="font-bold text-blue-600">{playerStats?.ast_per_game}</span> APG
+                                                    <Link href={`/teams/${player.team_name?.replace(/\s+/g, "_").toLowerCase()}`} className="absolute top-2 left-2 w-12 h-12 rounded-full shadow-md bg-white flex items-center justify-center hover:scale-110 hover:shadow-lg">
+                                                        <Image
+                                                            className="w-10 h-10 object-contain"
+                                                            src={teamLogo || "https://cdn.nba.com/logos/nba/1610612737/primary/L/logo.svg"}
+                                                            alt="team_logo"
+                                                            width={40}
+                                                            height={40}
+                                                        />
+                                                    </Link>
+                                                </div>
+                                                <div className="p-4">
+                                                    <h3 className="font-bold text-xl">{player?.first_name} {player?.last_name}</h3>
+                                                    <p className="text-gray-600 text-sm mb-2">{player?.position} | #{player?.jersey} | {player?.height}</p>
+                                                    <div className="flex justify-between text-sm">
+                                                        <div className="px-2 py-1 rounded shadow-md hover:">
+                                                            <span className="font-bold text-blue-600">{playerStats?.pts_per_game}</span> PPG
+                                                        </div>
+                                                        <div className="px-2 py-1 rounded shadow-md hover:shadow-lg">
+                                                            <span className="font-bold text-blue-600">{playerStats?.reb_per_game}</span> RPG
+                                                        </div>
+                                                        <div className="px-2 py-1 rounded shadow-md">
+                                                            <span className="font-bold text-blue-600">{playerStats?.ast_per_game}</span> APG
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex justify-center w-full">
-                                                <Link href={`/players/${player.first_name?.replace(/\s+/g, "_")}_${player.last_name?.replace(/\s+/g, "_")}`} className="bg-[#808080] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                    View Profile
-                                                </Link>
-                                            </div>
-                                        </Card>
-                                    </li>
-                                )
-                            })}
-                        </ul>
+                                                <div className="flex justify-center w-full">
+                                                    <Link href={`/players/${player.first_name?.replace(/\s+/g, "_")}_${player.last_name?.replace(/\s+/g, "_")}`} className="bg-[#808080] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                        View Profile
+                                                    </Link>
+                                                </div>
+                                            </Card>
+                                        </li>
+                                    )
+                                }).slice(0, 4)}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </section >
+                </section>
+            )}
             <div className="py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-8">
-                        <h2 className="heading-font text-2xl font-bold text-gray-900">Latest News</h2>
+                        <h2 className="text-3xl font-bold">📰 Latest News</h2>
                         <Link href="#" className="text-blue-600 hover:text-blue-800 font-medium">View All News →</Link>
                     </div>
 

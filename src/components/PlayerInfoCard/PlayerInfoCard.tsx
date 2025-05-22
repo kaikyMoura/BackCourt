@@ -1,6 +1,6 @@
 "use client"
 import { get_player_carrer_stats, get_player_info, get_players } from "@/api/services/playersService";
-import { useLoading } from "@/contexts/LoadingContext/useLoading";
+import { useLoading } from "@/components/Loader/hook";
 import { usePlayerGif } from "@/hooks/usePlayerGif";
 import { PlayerInfo } from "@/types/PlayerInfo";
 import Image from "next/image";

@@ -1,7 +1,7 @@
 'use client'
 import { usePathname } from "next/navigation";
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
-import { useLoading } from "../LoadingContext/useLoading";
+import { useLoading } from "../../components/Loader/hook";
 
 interface RouteTransitionContextProps {
     isPending: boolean | false,
