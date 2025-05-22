@@ -1,6 +1,7 @@
 "use client"
 import { get_players } from '@/api/services/playersService';
 import { get_teams } from '@/api/services/teamsService';
+import { useSearchCountStore } from '@/stores/useSearchCountStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
@@ -8,15 +9,14 @@ import { FaSearch } from 'react-icons/fa';
 import { FaToggleOff, FaToggleOn, FaX } from 'react-icons/fa6';
 import useLazyLoading from '../../hooks/useLazyLoading';
 import styles from './SearchBar.module.scss';
-import { useSearchCountStore } from '@/stores/useSearchCountStore';
 
-const SearchBar = <T extends Record<string, any>>(
+const SearchBar = <T extends Record<string, string>>(
     props: {
         keys: (keyof T)[];
     }) => {
 
-    const { imgRef, isVisible } = useLazyLoading();
-    const { incrementePlayerSearchCount, getTopSearchedPlayers } = useSearchCountStore()
+    const { imgRef } = useLazyLoading();
+    const { incrementePlayerSearchCount } = useSearchCountStore()
 
     const [query, setQuery] = useState('');
     const [filteredData, setFilteredData] = useState<T[]>([]);
@@ -73,7 +73,7 @@ const SearchBar = <T extends Record<string, any>>(
         );
 
         setFilteredData(filtered);
-    }, [query, allData]);
+    }, [query, allData, props.keys]);
 
     const clearInput = async (player_name: string) => {
         if (player_name) {

@@ -39,7 +39,7 @@ const StatsTable = () => {
         setLocalLoading(true)
         try {
             const player = await get_player_info(undefined, name);
-            const player_common = await get_players(undefined, player.data?.first_name! + player.data?.last_name!, undefined, undefined, 10);
+            const player_common = await get_players(undefined, `${player.data?.first_name ?? ''}${player.data?.last_name ?? ''}`, undefined, undefined, 10);
             const active = player_common.data![0]?.is_active;
 
             setIsActive(active);
@@ -64,7 +64,7 @@ const StatsTable = () => {
         } finally {
             setLoading(false);
         }
-    }, [name, seasonType, perMode, currentPage, itemsPerPage]);
+    }, [name, seasonType, perMode, currentPage, itemsPerPage, setLoading]);
 
     useEffect(() => {
         fetchStats();

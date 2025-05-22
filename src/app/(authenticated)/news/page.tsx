@@ -5,7 +5,7 @@ import Card from "@/components/Card/Card"
 import { Article } from "@/types/Article"
 import Image from "next/image"
 import Link from "next/link"
-import { Suspense, useEffect, useState } from "react"
+import { Suspense, useCallback, useEffect, useState } from "react"
 import { TbReload } from "react-icons/tb"
 import styles from "./page.module.scss"
 import { useLoading } from "@/contexts/LoadingContext/useLoading"
@@ -19,7 +19,7 @@ const News = () => {
 
     const [page, setPage] = useState(1)
 
-    const fetchArticles = async () => {
+    const fetchArticles =  useCallback(async () => {
         setLoading(true)
 
         try {
@@ -45,11 +45,11 @@ const News = () => {
             setLoading(false)
             console.error("Error: " + err)
         }
-    }
+    }, [page, setLoading])
 
     useEffect(() => {
         fetchArticles()
-    }, [])
+    }, [fetchArticles])
 
     return (<>
         <div className={`flex flex-col gap-6 ${styles.container}`}>

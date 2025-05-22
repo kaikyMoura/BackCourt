@@ -26,7 +26,7 @@ export const RouteTransitionProvider: React.FC<{ children: ReactNode }> = ({ chi
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [pathname]);
+    }, [pathname, setLoading]);
 
     return (
         <RouteTransitionContext.Provider value={{ isPending, setIsPending }}>

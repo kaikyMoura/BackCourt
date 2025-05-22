@@ -11,13 +11,15 @@ import Link from "next/link"
 import { Suspense, useCallback, useEffect, useState } from "react"
 import { FaBasketball } from "react-icons/fa6"
 import styles from "./page.module.scss"
+import { PlayerCareerStatsList } from "@/types/PlayerStatsList"
 
 const Home = () => {
-    const { setLoading, isLoading } = useLoading();
-    const { incrementePlayerSearchCount, getTopSearchedPlayers } = useSearchCountStore()
+    const { setLoading } = useLoading();
+    const { getTopSearchedPlayers } = useSearchCountStore()
 
     const [playersInfo, setPlayersInfo] = useState<PlayerInfo[]>([]);
-    const [seasonStatsByPlayer, setSeasonStatsByPlayer] = useState<Record<string, any>>({});
+    const [seasonStatsByPlayer, setSeasonStatsByPlayer] = useState<Record<string, PlayerCareerStatsList>>({});
+    const [articles, setArticles] = useState<Article[] | undefined>([])
 
     const fetchData = useCallback(async () => {
         const topRatedPlayers = await getTopSearchedPlayers()
@@ -71,41 +73,32 @@ const Home = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [getTopSearchedPlayers, setLoading]);
 
-    const [articles, setArticles] = useState<Article[] | undefined>([])
-
-
-    const fetchArticles = async () => {
-        setLoading(true)
-
+    const fetchArticles = useCallback(async () => {
         try {
-            const response = await getArticles(undefined, undefined, 5, undefined, 5)
+            setLoading(true);
+            const response = await getArticles(undefined, undefined, 5, undefined, 5);
 
             if (response) {
-                setLoading(false)
+                setLoading(false);
 
                 setArticles((prev) => {
-                    // Add new data to the existing data
                     const all = [...(prev || []), ...(response.data || [])];
-
-                    // This removes duplicates
                     const unique = Array.from(new Map(all.map(a => [a.title, a])).values());
-
                     return unique;
                 });
             }
+        } catch (err) {
+            setLoading(false);
+            console.error("Error: " + err);
         }
-        catch (err) {
-            setLoading(false)
-            console.error("Error: " + err)
-        }
-    }
+    }, [setLoading]);
 
     useEffect(() => {
-        fetchArticles()
+        fetchArticles();
         fetchData();
-    }, [fetchData]);
+    }, [fetchArticles, fetchData]);
 
     return (
         <>

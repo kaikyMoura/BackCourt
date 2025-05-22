@@ -3,15 +3,11 @@ import Button from "@/components/Button";
 import Card from "@/components/Card/Card";
 import Input from "@/components/Input/Input";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
 import { SetStateAction, useEffect, useState } from "react";
 import { FaBasketball } from "react-icons/fa6";
 import styles from "./page.module.scss";
-import { useLoading } from "@/contexts/LoadingContext/useLoading";
 
 const Signup = () => {
-    const router = useRouter()
-    const { setLoading } = useLoading()
 
     // const [avatarConfig, setAvatarConfig] = useState<NiceAvatarProps>(genConfig())
 

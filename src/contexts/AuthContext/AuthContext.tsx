@@ -1,6 +1,5 @@
 'use client';
-import Cookies from 'js-cookie';
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { useLoading } from '../LoadingContext/useLoading';
 
@@ -12,16 +11,16 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
-const publicPages = ['/login', '/registration', '/getStarted', '/verifyAccount', '/accountVerify', '/resetPassword', '/changePassword']
+// const publicPages = ['/login', '/registration', '/getStarted', '/verifyAccount', '/accountVerify', '/resetPassword', '/changePassword']
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
     const { setLoading } = useLoading()
-    const router = useRouter();
+    // const router = useRouter();
     const pathname = usePathname()
 
-    const token = Cookies.get('Token');
+    // const token = Cookies.get('Token');
 
     useEffect(() => {
         if (!setLoading) return
@@ -33,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }, 300)
 
         return () => clearTimeout(timer)
-    }, [pathname, setLoading, setLoading])
+    }, [pathname, setLoading])
 
     // const handleAuthentication = useCallback(async () => {
     //     const token = Cookies.get('Token');

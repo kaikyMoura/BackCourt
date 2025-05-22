@@ -1,5 +1,5 @@
 import app from '@/firebase/firebaseConfig';
-import { collection, doc, DocumentData, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, increment, limit, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import { create } from 'zustand';
 
 export interface ISearchCount {

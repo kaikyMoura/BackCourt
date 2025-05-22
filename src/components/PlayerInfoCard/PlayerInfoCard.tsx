@@ -94,12 +94,12 @@ const PlayerInfoCard = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [name, seasonStats, setLoading]);
 
     useEffect(() => {
         console.log(gifUrl)
         fetchData();
-    }, [gifUrl]);
+    }, [gifUrl, fetchData]);
 
     return (
         <Card className={`overflow-hidden transition-all duration-300 ease-in-out`} pages={1}>

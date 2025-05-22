@@ -33,7 +33,7 @@ export function usePlayerGif(...searchParams: string[]) {
     }
 
     fetchGif();
-  }, [searchParams.join(',')]);
+  }, [searchParams]);
 
   return gifUrl;
 }

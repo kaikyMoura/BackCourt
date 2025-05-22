@@ -6,11 +6,9 @@ import { useRouter } from 'next/navigation'
 import { SetStateAction, useState } from "react"
 import { FaBasketball } from "react-icons/fa6"
 import styles from "./page.module.scss"
-import { useLoading } from "@/contexts/LoadingContext/useLoading"
 
 const Login = () => {
     const router = useRouter()
-    const { setLoading } = useLoading()
 
     const [email, setEmail] = useState('')
     const [userPassword, setUserPassword] = useState('')

@@ -1,18 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './Table.module.scss'
+import { useEffect, useRef, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
 const Table = ({ className, data, fields, headers }: {
     className?: string
-    data: Record<string, any>[]
+    data: Record<string, string | number>[]
     fields: string[]
     headers?: string[]
 }) => {
-    if (!Array.isArray(data) || data.length === 0) return null;
 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
+
+    useEffect(() => {
+        checkScroll();
+    }, []);
 
     const checkScroll = () => {
         const el = scrollContainerRef.current;
@@ -34,17 +36,27 @@ const Table = ({ className, data, fields, headers }: {
     };
 
     useEffect(() => {
-        checkScroll();
         const el = scrollContainerRef.current;
-        if (!el) return;
 
-        el.addEventListener("scroll", checkScroll);
-        window.addEventListener("resize", checkScroll);
+        const handleScroll = () => checkScroll();
+        const handleResize = () => checkScroll();
+
+        if (el) {
+            el.addEventListener("scroll", handleScroll);
+            window.addEventListener("resize", handleResize);
+
+            return () => {
+                el.removeEventListener("scroll", handleScroll);
+                window.removeEventListener("resize", handleResize);
+            };
+        }
+
         return () => {
-            el.removeEventListener("scroll", checkScroll);
-            window.removeEventListener("resize", checkScroll);
+            window.removeEventListener("resize", handleResize);
         };
-    }, [canScrollLeft, canScrollRight]);
+    }, [scrollContainerRef]);
+
+    if (!Array.isArray(data) || data.length === 0) return <p>No data</p>;
 
     return (
         <div className="relative w-full">
@@ -53,7 +65,7 @@ const Table = ({ className, data, fields, headers }: {
                     onClick={() => scrollTable("left")}
                     className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 shadow"
                 >
-                    <FaArrowLeft className='text-(--text-color)' fontSize={22}/>
+                    <FaArrowLeft className='text-(--text-color)' fontSize={22} />
                 </button>
             )}
             {canScrollRight && (
@@ -61,7 +73,7 @@ const Table = ({ className, data, fields, headers }: {
                     onClick={() => scrollTable("right")}
                     className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 shadow"
                 >
-                    <FaArrowRight className='text-(--text-color)' fontSize={22}/>
+                    <FaArrowRight className='text-(--text-color)' fontSize={22} />
                 </button>
             )}
 
@@ -78,7 +90,7 @@ const Table = ({ className, data, fields, headers }: {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row: any, index: number) => (
+                        {data.map((row: Record<string, string | number>, index: number) => (
                             <tr key={index} className="text-center">
                                 {fields.map((field: string) => (
                                     <td key={field} className="px-4 py-2 whitespace-nowrap">
