@@ -1,7 +1,8 @@
 "use client"
-import Footer from "@/components/Footer";
-import SideMenuImpl from "@/components/SideMenuImpl";
-import ToolBar from "@/components/ToolBar";
+
+import SideMenuImpl from "@/components/features/SideMenuImpl"
+import ToolBar from "@/components/features/ToolBar"
+import Footer from "@/components/layout/Footer"
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
 

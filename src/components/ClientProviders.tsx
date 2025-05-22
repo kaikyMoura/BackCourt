@@ -1,7 +1,7 @@
 'use client';
 
 import { AuthProvider } from '@/contexts/AuthContext/AuthContext';
-import { LoadingProvider } from '@/components/Loader/context';
+import { LoadingProvider } from '@/components/ui/Loader/context';
 import { ThemeProvider } from '@/contexts/ThemeContext/ThemeContext';
 import { Tooltip } from 'react-tooltip';
 

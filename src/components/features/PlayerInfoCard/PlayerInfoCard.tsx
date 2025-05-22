@@ -1,13 +1,13 @@
 "use client"
 import { get_player_carrer_stats, get_player_info, get_players } from "@/api/services/playersService";
-import { useLoading } from "@/components/Loader/hook";
+import { useLoading } from "@/components/ui/Loader/hook";
 import { usePlayerGif } from "@/hooks/usePlayerGif";
 import { PlayerInfo } from "@/types/PlayerInfo";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { GoInfo } from "react-icons/go";
-import Card from "../Card";
+import Card from "../../ui/Card";
 import styles from "./PlayerInfoCard.module.scss";
 import { PlayerCareerStatsList } from "@/types/PlayerStatsList";
 import Link from "next/link";

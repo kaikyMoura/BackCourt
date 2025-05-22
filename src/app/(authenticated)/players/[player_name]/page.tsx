@@ -1,6 +1,6 @@
 "use client"
-import PlayerInfoCard from "@/components/PlayerInfoCard"
-import StatsTable from "@/components/StatsTable"
+import PlayerInfoCard from "@/components/features/PlayerInfoCard"
+import StatsTable from "@/components/features/StatsTable"
 import styles from "./page.module.scss"
 
 const PlayerDetails = () => {

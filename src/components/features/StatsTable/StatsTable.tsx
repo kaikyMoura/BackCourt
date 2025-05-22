@@ -1,11 +1,11 @@
 import { get_player_advanced_stats, get_player_carrer_stats, get_player_info, get_players } from '@/api/services/playersService';
-import { useLoading } from '@/components/Loader/hook';
+import { useLoading } from '@/components/ui/Loader/hook';
 import { PlayerStats } from '@/types/PlayerStats';
 import { PlayerCareerStatsList } from '@/types/PlayerStatsList';
 import { useParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
-import Table from '../Table';
+import Table from '../../ui/Table';
 import styles from './StatsTable.module.scss';
 import { IoIosArrowForward } from 'react-icons/io';
 

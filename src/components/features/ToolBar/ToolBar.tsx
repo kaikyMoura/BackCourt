@@ -5,12 +5,12 @@ import { useTheme } from "@/contexts/ThemeContext/useTheme";
 import { useSearchCountStore } from "@/stores/useSearchCountStore";
 import { Player } from "@/types/Player";
 import { useRouter } from "next/navigation";
-import { SetStateAction, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AiFillMoon } from "react-icons/ai";
 import { MdWbSunny } from "react-icons/md";
-import SearchInput from "../SearchInput";
+import { useLoading } from "../../ui/Loader/hook";
+import SearchInput from "../../ui/SearchInput";
 import styles from "./ToolBar.module.scss";
-import { useLoading } from "../Loader/hook";
 
 const ToolBar = () => {
     const router = useRouter();
@@ -71,8 +71,8 @@ const ToolBar = () => {
         <div className={`fixed z-120 ${styles.toolbar_container}`}>
             <div className={`flex items-center justify-center ml-4 mr-4`}>
                 <SearchInput keys={['full_name']} placeholder={"search players"}
-                data={allData} label={""} onSelect={(player) => handleSelect(player)} imageKey={"image"} isActive={isActivePlayer} 
-                setActive={setIsActivePlayer} />
+                    data={allData} label={""} onSelect={(player) => handleSelect(player)} imageKey={"image"} isActive={isActivePlayer}
+                    setActive={setIsActivePlayer} />
                 {/* Theme switcher */}
                 <div className="fixed top-5 right-2">
                     <div

@@ -4,8 +4,8 @@ import { FaBasketball } from "react-icons/fa6"
 import { GiBasketballJersey } from "react-icons/gi"
 import { IoNewspaper, IoPerson } from "react-icons/io5"
 import { TbDeviceAnalytics } from "react-icons/tb"
-import SideMenu from "../SideMenu"
 import { JSX } from "react"
+import SideMenu from "@/components/layout/SideMenu"
 
 /**
  * Renders the main side menu of the application.
